@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://teachflow.local/schemas/student-memory.schema.json",
+  "title": "TeachFlow Student Understanding Memory",
+  "type": "object",
+  "required": ["student_memories"],
+  "properties": {
+    "student_memories": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/StudentMemory" }
+    },
+    "followup_analysis": {
+      "type": "object",
+      "required": ["followup_summary", "student_updates", "next_teaching_recommendation"],
+      "properties": {
+        "followup_summary": { "type": "string" },
+        "student_updates": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/FollowupStudentUpdate" }
+        },
+        "next_teaching_recommendation": { "type": "string" }
+      }
+    }
+  },
+  "$defs": {
+    "StudentLevel": {
+      "type": "string",
+      "enum": ["confused", "partially_understood", "ready_to_apply"]
+    },
+    "StudentAlias": {
+      "type": "string",
+      "pattern": "^S[0-9]{3}$"
+    },
+    "StudentMemory": {
+      "type": "object",
+      "required": [
+        "id",
+        "topic_id",
+        "student_alias",
+        "current_level",
+        "understood",
+        "weak_points",
+        "misconception_ids",
+        "recommended_next_action",
+        "last_updated_at"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "topic_id": { "type": "string" },
+        "student_alias": { "$ref": "#/$defs/StudentAlias" },
+        "current_level": { "$ref": "#/$defs/StudentLevel" },
+        "understood": { "type": "array", "items": { "type": "string" } },
+        "weak_points": { "type": "array", "items": { "type": "string" } },
+        "misconception_ids": { "type": "array", "items": { "type": "string" } },
+        "preferred_explanation_style": {
+          "type": "string",
+          "enum": ["visual", "analogy", "formula", "example", "application"]
+        },
+        "recommended_next_action": { "type": "string" },
+        "last_updated_at": { "type": "string" }
+      }
+    },
+    "FollowupStudentUpdate": {
+      "type": "object",
+      "required": ["student_alias", "new_level", "evidence", "remaining_weak_points", "recommended_next_action"],
+      "properties": {
+        "student_alias": { "$ref": "#/$defs/StudentAlias" },
+        "new_level": { "$ref": "#/$defs/StudentLevel" },
+        "evidence": { "type": "string" },
+        "understood": { "type": "array", "items": { "type": "string" } },
+        "remaining_weak_points": { "type": "array", "items": { "type": "string" } },
+        "recommended_next_action": { "type": "string" }
+      }
+    }
+  }
+}

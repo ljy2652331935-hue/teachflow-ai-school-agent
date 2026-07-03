@@ -1,0 +1,15 @@
+{
+  "name": "teachflow-school-live",
+  "version": "0.3.0",
+  "private": true,
+  "description": "Clean TeachFlow school-trial app with teacher/student registration and classroom invite links.",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test:browser-login": "node tests/browser-login-smoke.test.js",
+    "test:browser-workflow": "node tests/browser-login-smoke.test.js",
+    "test:system": "node tests/school-live-system-integrity.test.js",
+    "check": "node --check app.js && node --check auth-ui.js && node --check teacher-prototype.js && node --check student-prototype.js && node --check diagnosis-engine.js && node --check intervention-engine.js && node --check control-layer.js && node --check memory-engine.js && node --check student-portal-engine.js && node --check understanding-map-engine.js && node --check school-agent-engine.js && node --check dual-agent-engine.js && node --check teacher-agent-orchestrator.js && node --check outcome-evaluation-engine.js && node --check student-agent-orchestrator.js && node --check ai-provider.js && node --check ai-agent-service.js && node --check env-loader.js && node --check workspace-state.js && node --check workspace-store.js && node --check session-store.js && node --check server.js && node --check school-admin-prototype.js && node --check tests/school-live-registration.test.js && node --check tests/school-live-system-integrity.test.js && node tests/school-live-registration.test.js && node tests/school-live-system-integrity.test.js && node -e \"JSON.parse(require('fs').readFileSync('schemas/model.schema.json','utf8')); JSON.parse(require('fs').readFileSync('schemas/intervention.schema.json','utf8')); JSON.parse(require('fs').readFileSync('schemas/control-layer.schema.json','utf8')); JSON.parse(require('fs').readFileSync('schemas/memory.schema.json','utf8')); JSON.parse(require('fs').readFileSync('schemas/student-portal.schema.json','utf8')); JSON.parse(require('fs').readFileSync('schemas/understanding-map.schema.json','utf8')); JSON.parse(require('fs').readFileSync('schemas/check-in.schema.json','utf8')); console.log('TeachFlow school-live checks passed')\""
+  },
+  "dependencies": {}
+}

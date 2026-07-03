@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TeachFlow 学校管理端</title>
+    <link rel="stylesheet" href="school-admin-prototype.css">
+    <link rel="stylesheet" href="role-switch.css">
+  </head>
+  <body class="has-role-portal admin-page" data-expected-role="school_admin">
+    <header class="role-portal-bar" aria-label="TeachFlow 角色切换">
+      <div class="role-portal-brand">
+        <div class="role-portal-mark">TF</div>
+        <div>
+          <p>TeachFlow</p>
+          <h1>AI School System</h1>
+        </div>
+      </div>
+
+      <nav class="role-switch-tabs" aria-label="选择角色端">
+        <a class="role-switch-link" href="teacher-prototype.html">
+          <span>老师端</span>
+          <small>教学分析、制作、审批</small>
+        </a>
+        <a class="role-switch-link" href="student-prototype.html">
+          <span>学生端</span>
+          <small>学习材料、作业、AI 支持</small>
+        </a>
+        <a class="role-switch-link active" href="school-admin-prototype.html" aria-current="page">
+          <span>学校管理</span>
+          <small>试点进度、校级 Agent、风险概览</small>
+        </a>
+      </nav>
+
+      <div class="role-portal-meta" aria-label="系统状态">
+        <span>学校视图</span>
+        <span>聚合数据</span>
+        <span>本地演示</span>
+      </div>
+    </header>
+
+    <div class="admin-shell">
+      <aside class="admin-sidebar" aria-label="学校管理频道">
+        <div class="admin-brand">
+          <div class="admin-brand-mark">校</div>
+          <div>
+            <p>TeachFlow Admin</p>
+            <h1>学校试点中枢</h1>
+          </div>
+        </div>
+
+        <nav class="admin-channel-list" aria-label="学校管理频道切换">
+          <button class="admin-channel active" type="button" data-admin-channel="overview">
+            <span>总</span>
+            <strong>校级总览</strong>
+          </button>
+          <button class="admin-channel" type="button" data-admin-channel="classes">
+            <span>班</span>
+            <strong>班级试点</strong>
+          </button>
+          <button class="admin-channel" type="button" data-admin-channel="agent">
+            <span>AI</span>
+            <strong>学校 Agent</strong>
+          </button>
+          <button class="admin-channel" type="button" data-admin-channel="architecture">
+            <span>图</span>
+            <strong>系统架构</strong>
+          </button>
+          <button class="admin-channel" type="button" data-admin-channel="pilot">
+            <span>路</span>
+            <strong>试点路线</strong>
+          </button>
+          <button class="admin-channel" type="button" data-admin-channel="audit">
+            <span>审</span>
+            <strong>审计摘要</strong>
+          </button>
+        </nav>
+
+        <section class="admin-side-card">
+          <span>当前学校</span>
+          <strong id="admin-school-name">TeachFlow 试用学校</strong>
+          <small>只展示聚合趋势，不展示学生个人明细。</small>
+        </section>
+      </aside>
+
+      <main class="admin-main">
+        <header class="admin-topbar">
+          <div>
+            <p id="admin-kicker" class="mini-label">校级总览</p>
+            <h2 id="admin-title">学校 AI 教学系统运行状态</h2>
+          </div>
+          <div class="admin-actions">
+            <button class="secondary-button" type="button" data-admin-top-channel="classes">查看班级</button>
+            <button class="primary-button" type="button" data-admin-top-channel="agent">打开学校 Agent</button>
+          </div>
+        </header>
+
+        <section id="admin-content" class="admin-content" aria-live="polite"></section>
+      </main>
+    </div>
+
+    <script src="workspace-state.js"></script>
+    <script src="auth-ui.js"></script>
+    <script src="school-admin-prototype.js"></script>
+  </body>
+</html>

@@ -85,7 +85,7 @@ const channels = {
           </details>
         </div>
         <div class="panel material-preview">
-          <img src="assets/fourier-prism.png" alt="傅里叶变换课堂材料预览">
+          <img src="assets/fourier-prism.svg" alt="傅里叶变换课堂材料预览">
           <div class="material-caption">
             <p class="mini-label">材料预览</p>
             <h3>傅里叶变换视觉讲解</h3>
@@ -256,7 +256,7 @@ const channels = {
             <div><p class="mini-label">预览</p><h3>老师审批前可继续编辑</h3></div>
             <span class="status-pill">版本 3</span>
           </div>
-          <img src="assets/fourier-prism.png" alt="材料制作预览图">
+          <img src="assets/fourier-prism.svg" alt="材料制作预览图">
           <ul class="material-review-list">
             ${materialReview("图片", "傅里叶变换视觉讲解图", "用于解释复杂波形如何拆成简单频率。")}
             ${materialReview("讲义", "学生版 5 分钟讲义", "压低术语密度，先讲直觉再讲公式。")}
@@ -1244,7 +1244,7 @@ function latestMaterialDraft(scoped) {
 function renderMaterialPreview(material) {
   if (!material) {
     return `
-      <img src="assets/fourier-prism.png" alt="材料制作预览图">
+      <img src="assets/fourier-prism.svg" alt="材料制作预览图">
       <div class="material-preview-empty">
         <strong>还没有生成草稿</strong>
         <span>先在左侧选择“讲义 / 图片 / PPT / 练习”，再点击生成。生成后会显示在这里，并同步到审批导出。</span>

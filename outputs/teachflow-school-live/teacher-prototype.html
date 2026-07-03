@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TeachFlow 老师端原型</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="teacher-prototype.css?v=20260703-publish-target">
+    <link rel="stylesheet" href="role-switch.css">
+  </head>
+  <body class="has-role-portal" data-expected-role="teacher">
+    <header class="role-portal-bar" aria-label="TeachFlow 角色切换">
+      <div class="role-portal-brand">
+        <div class="role-portal-mark">TF</div>
+        <div>
+          <p>TeachFlow</p>
+          <h1>AI School System</h1>
+        </div>
+      </div>
+
+      <nav class="role-switch-tabs" aria-label="选择老师或学生端">
+        <a class="role-switch-link active" href="teacher-prototype.html" aria-current="page">
+          <span>老师端</span>
+          <small>教学分析、制作、审批</small>
+        </a>
+        <a class="role-switch-link" href="student-prototype.html">
+          <span>学生端</span>
+          <small>学习材料、作业、AI 支持</small>
+        </a>
+        <a class="role-switch-link" href="school-admin-prototype.html">
+          <span>学校管理</span>
+          <small>试点进度、校级 Agent、风险概览</small>
+        </a>
+      </nav>
+
+      <div class="role-portal-meta" aria-label="系统状态">
+        <span>老师视图</span>
+        <span>匿名试用</span>
+        <span>本地演示</span>
+      </div>
+    </header>
+
+    <div class="teacher-shell">
+      <aside class="teacher-sidebar" aria-label="老师端频道">
+        <div class="teacher-brand">
+          <div class="brand-badge">TF</div>
+          <div>
+            <p>TeachFlow</p>
+            <h1>老师工作台</h1>
+          </div>
+        </div>
+
+        <nav class="channel-list" aria-label="频道切换">
+          <button class="channel-button active" type="button" data-channel="overview">
+            <span class="channel-icon">总</span>
+            <span><strong>今日总览</strong><small>班级状态与提醒</small></span>
+          </button>
+          <button class="channel-button" type="button" data-channel="courses">
+            <span class="channel-icon">课</span>
+            <span><strong>课程班级</strong><small>课程、班级、主题</small></span>
+          </button>
+          <button class="channel-button" type="button" data-channel="analysis">
+            <span class="channel-icon">析</span>
+            <span><strong>教学分析</strong><small>诊断、干预、跟进</small></span>
+          </button>
+          <button class="channel-button" type="button" data-channel="messages">
+            <span class="channel-icon">聊</span>
+            <span><strong>消息中心</strong><small>帮助提醒与对话</small></span>
+          </button>
+          <button class="channel-button" type="button" data-channel="creation">
+            <span class="channel-icon">制</span>
+            <span><strong>制作材料</strong><small>图片、PPT、讲义</small></span>
+          </button>
+          <button class="channel-button" type="button" data-channel="approval">
+            <span class="channel-icon">审</span>
+            <span><strong>审批导出</strong><small>复核、版本、发布</small></span>
+          </button>
+          <button class="channel-button" type="button" data-channel="settings">
+            <span class="channel-icon">设</span>
+            <span><strong>系统设置</strong><small>安全边界与权限</small></span>
+          </button>
+        </nav>
+
+        <section class="sidebar-card">
+          <p class="mini-label">当前试用班级</p>
+          <strong>高二物理 A 班</strong>
+          <span>傅里叶变换 · 32 名学生</span>
+        </section>
+      </aside>
+
+      <main class="teacher-main">
+        <header class="teacher-topbar">
+          <div>
+            <p id="channel-kicker" class="mini-label">今日总览</p>
+            <h2 id="channel-title">老师一天的决策中心</h2>
+          </div>
+          <div class="topbar-actions">
+            <button class="plain-button" type="button">预览学生端</button>
+            <button class="secondary-button" type="button" data-top-channel="messages">消息中心</button>
+            <button class="secondary-button" type="button" data-top-channel="creation">制作材料</button>
+            <button class="primary-button" type="button" data-top-channel="analysis">教学分析</button>
+          </div>
+        </header>
+
+        <section id="channel-content" class="channel-content" aria-live="polite"></section>
+      </main>
+    </div>
+
+    <script src="workspace-state.js"></script>
+    <script src="auth-ui.js"></script>
+    <script src="dual-agent-engine.js"></script>
+    <script src="outcome-evaluation-engine.js"></script>
+    <script src="teacher-agent-orchestrator.js"></script>
+    <script src="teacher-prototype.js?v=20260703-publish-target"></script>
+  </body>
+</html>

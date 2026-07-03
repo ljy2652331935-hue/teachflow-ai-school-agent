@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: teachflow-demo
+    runtime: node
+    rootDir: outputs/teachflow-v0.1
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: TEACHFLOW_WORKSPACE_FILE
+        value: /tmp/teachflow-workspace-state.json

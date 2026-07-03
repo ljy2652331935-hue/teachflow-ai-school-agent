@@ -1,0 +1,6 @@
+.env
+.env.local
+.env.*.local
+*.log
+data/workspace-state.json
+data/workspace-state.*.json

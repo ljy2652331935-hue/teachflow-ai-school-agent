@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Fourier prism classroom visual</title>
+  <desc id="desc">A teaching visual showing one complex wave entering a prism and separating into simple frequency waves.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#f8fbff"/>
+      <stop offset="1" stop-color="#eef6f1"/>
+    </linearGradient>
+    <linearGradient id="prism" x1="0" x2="1">
+      <stop offset="0" stop-color="#dbeafe"/>
+      <stop offset="0.55" stop-color="#c7d2fe"/>
+      <stop offset="1" stop-color="#bbf7d0"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="14" stdDeviation="18" flood-color="#0f172a" flood-opacity="0.16"/>
+    </filter>
+  </defs>
+  <rect width="960" height="540" rx="36" fill="url(#bg)"/>
+  <path d="M68 420 C160 320 232 470 324 370 S500 315 568 388" fill="none" stroke="#2563eb" stroke-width="10" stroke-linecap="round"/>
+  <path d="M68 420 C160 260 238 500 324 348 S488 285 568 388" fill="none" stroke="#0f172a" stroke-width="4" stroke-linecap="round" opacity="0.38"/>
+  <polygon points="576,138 720,270 576,402" fill="url(#prism)" stroke="#475569" stroke-width="4" filter="url(#softShadow)"/>
+  <line x1="576" y1="138" x2="576" y2="402" stroke="#ffffff" stroke-width="3" opacity="0.72"/>
+  <path d="M720 270 C782 184 850 178 904 198" fill="none" stroke="#ef4444" stroke-width="8" stroke-linecap="round"/>
+  <path d="M720 270 C790 236 846 236 910 250" fill="none" stroke="#f59e0b" stroke-width="8" stroke-linecap="round"/>
+  <path d="M720 270 C786 292 846 300 912 302" fill="none" stroke="#16a34a" stroke-width="8" stroke-linecap="round"/>
+  <path d="M720 270 C780 350 846 366 900 352" fill="none" stroke="#7c3aed" stroke-width="8" stroke-linecap="round"/>
+  <g fill="#0f172a" font-family="Arial, Helvetica, sans-serif">
+    <text x="70" y="92" font-size="30" font-weight="700">Complex Signal</text>
+    <text x="604" y="92" font-size="30" font-weight="700">Fourier Lens</text>
+    <text x="750" y="430" font-size="28" font-weight="700">Simple Frequencies</text>
+  </g>
+  <g fill="#475569" font-family="Arial, Helvetica, sans-serif" font-size="20">
+    <text x="70" y="124">one mixed wave</text>
+    <text x="604" y="124">separates hidden patterns</text>
+    <text x="750" y="462">slow, medium, fast parts</text>
+  </g>
+</svg>

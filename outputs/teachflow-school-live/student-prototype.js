@@ -161,7 +161,7 @@ const studentChannels = {
           </ul>
         </div>
         <div class="panel hero-material">
-          <img src="assets/fourier-prism.png" alt="傅里叶变换学习材料图">
+          <img src="assets/fourier-prism.svg" alt="傅里叶变换学习材料图">
           <div class="hero-material-body">
             <p class="small-label">当前学习材料</p>
             <h3>把复杂信号拆成简单频率</h3>

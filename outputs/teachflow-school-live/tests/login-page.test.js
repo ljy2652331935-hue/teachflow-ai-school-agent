@@ -1,0 +1,40 @@
+const assert = require("assert");
+const fs = require("fs");
+const path = require("path");
+
+const root = path.join(__dirname, "..");
+const loginHtml = fs.readFileSync(path.join(root, "login.html"), "utf8");
+const authUi = fs.readFileSync(path.join(root, "auth-ui.js"), "utf8");
+const teacherHtml = fs.readFileSync(path.join(root, "teacher-prototype.html"), "utf8");
+const studentHtml = fs.readFileSync(path.join(root, "student-prototype.html"), "utf8");
+const schoolAdminHtml = fs.readFileSync(path.join(root, "school-admin-prototype.html"), "utf8");
+const schoolAdminJs = fs.readFileSync(path.join(root, "school-admin-prototype.js"), "utf8");
+const studentJs = fs.readFileSync(path.join(root, "student-prototype.js"), "utf8");
+const teacherJs = fs.readFileSync(path.join(root, "teacher-prototype.js"), "utf8");
+
+assert.ok(loginHtml.includes('id="login-root"'));
+assert.ok(loginHtml.includes("auth-ui.js"));
+assert.ok(authUi.includes("/api/session/accounts"));
+assert.ok(authUi.includes("/api/session/login"));
+assert.ok(authUi.includes("/api/session/logout"));
+assert.ok(authUi.includes("school-admin-prototype.html"));
+assert.ok(authUi.includes("data-login-account"));
+assert.ok(teacherHtml.includes('data-expected-role="teacher"'));
+assert.ok(studentHtml.includes('data-expected-role="student"'));
+assert.ok(studentHtml.includes('data-channel="checkin"'));
+assert.ok(studentJs.includes("AI 学习关怀助手"));
+assert.ok(teacherHtml.includes('data-channel="analysis"'));
+assert.ok(!teacherHtml.includes('data-channel="diagnosis"'));
+assert.ok(!teacherHtml.includes('data-channel="intervention"'));
+assert.ok(!teacherHtml.includes('data-channel="students"'));
+assert.ok(teacherJs.includes("teacher-detail-modal"));
+assert.ok(teacherJs.includes("学习支持画像"));
+assert.ok(teacherJs.includes("测试老师") || fs.readFileSync(path.join(root, "workspace-state.js"), "utf8").includes("test-teacher"));
+assert.ok(fs.readFileSync(path.join(root, "workspace-state.js"), "utf8").includes("test-student-s002"));
+assert.ok(schoolAdminHtml.includes('data-expected-role="school_admin"'));
+assert.ok(schoolAdminHtml.includes("school-admin-prototype.js"));
+assert.ok(schoolAdminHtml.includes('data-admin-channel="architecture"'));
+assert.ok(schoolAdminJs.includes("AI School Agent System 工作闭环"));
+assert.ok(schoolAdminJs.includes("architectureFlow"));
+
+console.log("login page tests passed");

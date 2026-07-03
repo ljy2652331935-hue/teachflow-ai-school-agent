@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://teachflow.local/schemas/check-in.schema.json",
+  "title": "TeachFlow Student Check-in",
+  "type": "object",
+  "required": [
+    "id",
+    "studentAlias",
+    "topic",
+    "state",
+    "shareChoice",
+    "privateReflection",
+    "nextLearningStep",
+    "teacherHelpDraft",
+    "learningSupportSignal",
+    "wellbeingLevel",
+    "wellbeingLabel",
+    "summaryForTeacher",
+    "recommendedTeacherAction",
+    "privacyLevel",
+    "teacherVisible",
+    "safeguardingFlag",
+    "createdAt"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "studentAlias": { "type": "string", "pattern": "^S[0-9]+$" },
+    "topic": { "type": "string" },
+    "state": {
+      "type": "string",
+      "enum": ["understand", "partly_understand", "stuck", "frustrated", "want_teacher_help"]
+    },
+    "stateLabel": { "type": "string" },
+    "note": { "type": "string", "maxLength": 500 },
+    "shareChoice": {
+      "type": "string",
+      "enum": ["private", "teacher_summary", "ask_ai_first"]
+    },
+    "privateReflection": { "type": "string" },
+    "nextLearningStep": { "type": "string" },
+    "teacherHelpDraft": { "type": "string" },
+    "learningSupportSignal": {
+      "type": "string",
+      "enum": [
+        "normal_learning_check_in",
+        "learning_support_needed",
+        "low_confidence",
+        "sustained_learning_pressure",
+        "safeguarding_review"
+      ]
+    },
+    "wellbeingLevel": { "type": "integer", "minimum": 0, "maximum": 3 },
+    "wellbeingLabel": { "type": "string" },
+    "summaryForTeacher": { "type": "string" },
+    "recommendedTeacherAction": { "type": "string" },
+    "evidenceQuote": { "type": "string" },
+    "privacyLevel": {
+      "type": "string",
+      "enum": ["private_student_only", "teacher_visible_summary_only", "safeguarding_review_required"]
+    },
+    "teacherVisible": { "type": "boolean" },
+    "safeguardingFlag": {
+      "type": "object",
+      "required": ["required"],
+      "properties": {
+        "required": { "type": "boolean" },
+        "reason": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "createdAt": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": true
+}

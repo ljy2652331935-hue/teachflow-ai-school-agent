@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TeachFlow 学生端原型</title>
+    <link rel="stylesheet" href="student-prototype.css?v=20260703-wellbeing-chat">
+    <link rel="stylesheet" href="role-switch.css">
+  </head>
+  <body class="has-role-portal" data-expected-role="student">
+    <header class="role-portal-bar" aria-label="TeachFlow 角色切换">
+      <div class="role-portal-brand">
+        <div class="role-portal-mark">TF</div>
+        <div>
+          <p>TeachFlow</p>
+          <h1>AI School System</h1>
+        </div>
+      </div>
+
+      <nav class="role-switch-tabs" aria-label="选择老师或学生端">
+        <a class="role-switch-link" href="teacher-prototype.html">
+          <span>老师端</span>
+          <small>教学分析、制作、审批</small>
+        </a>
+        <a class="role-switch-link active" href="student-prototype.html" aria-current="page">
+          <span>学生端</span>
+          <small>学习材料、作业、AI 支持</small>
+        </a>
+        <a class="role-switch-link" href="school-admin-prototype.html">
+          <span>学校管理</span>
+          <small>试点进度、校级 Agent、风险概览</small>
+        </a>
+      </nav>
+
+      <div class="role-portal-meta" aria-label="系统状态">
+        <span>学生视图</span>
+        <span>匿名试用</span>
+        <span>本地演示</span>
+      </div>
+    </header>
+
+    <div class="student-shell">
+      <aside class="student-sidebar" aria-label="学生端频道">
+        <div class="student-brand">
+          <div class="student-avatar">S2</div>
+          <div>
+            <p>TeachFlow Student</p>
+            <h1>S002 学习空间</h1>
+          </div>
+        </div>
+
+        <section class="identity-card">
+          <span>当前主题</span>
+          <strong>傅里叶变换</strong>
+          <small>高二物理 A 班 · 老师已发布任务</small>
+        </section>
+
+        <nav class="student-channel-list" aria-label="学习频道切换">
+          <button class="student-channel active" type="button" data-channel="home">
+            <span class="channel-symbol">首</span>
+            <span><strong>我的首页</strong><small>今天要做什么</small></span>
+          </button>
+          <button class="student-channel" type="button" data-channel="material">
+            <span class="channel-symbol">学</span>
+            <span><strong>学习材料</strong><small>老师批准的讲义</small></span>
+          </button>
+          <button class="student-channel" type="button" data-channel="assignment">
+            <span class="channel-symbol">交</span>
+            <span><strong>提交作业</strong><small>小测与作业一起交</small></span>
+          </button>
+          <button class="student-channel" type="button" data-channel="ask">
+            <span class="channel-symbol">问</span>
+            <span><strong>问题窗口</strong><small>像 GPT 一样提问</small></span>
+          </button>
+          <button class="student-channel" type="button" data-channel="messages">
+            <span class="channel-symbol">聊</span>
+            <span><strong>老师消息</strong><small>和老师对话</small></span>
+          </button>
+          <button class="student-channel" type="button" data-channel="support">
+            <span class="channel-symbol">AI</span>
+            <span><strong>AI 学习支持</strong><small>分析、提问、卡点</small></span>
+          </button>
+          <button class="student-channel" type="button" data-channel="checkin">
+            <span class="channel-symbol">心</span>
+            <span><strong>学习关怀</strong><small>状态、压力、求助草稿</small></span>
+          </button>
+          <button class="student-channel" type="button" data-channel="progress">
+            <span class="channel-symbol">记</span>
+            <span><strong>学习记录</strong><small>提交与反馈</small></span>
+          </button>
+        </nav>
+
+        <section class="safe-note">
+          <strong>隐私提示</strong>
+          <span>这里只显示学习别名。问题、作业和卡点信号只进入老师可控的学习流程。</span>
+        </section>
+      </aside>
+
+      <main class="student-main">
+        <header class="student-topbar">
+          <div>
+            <p id="student-kicker" class="small-label">我的首页</p>
+            <h2 id="student-title">今天先完成这三件事</h2>
+          </div>
+          <div class="student-actions">
+            <button class="ghost-button" type="button" data-top-action="ask">打开问题窗口</button>
+            <button class="ghost-button" type="button" data-top-action="messages">老师消息</button>
+            <button class="primary-button" type="button" data-top-action="assignment">继续作业</button>
+          </div>
+        </header>
+
+        <section id="student-content" class="student-content" aria-live="polite"></section>
+      </main>
+    </div>
+
+    <script src="workspace-state.js"></script>
+    <script src="auth-ui.js"></script>
+    <script src="dual-agent-engine.js"></script>
+    <script src="student-agent-orchestrator.js"></script>
+    <script src="student-prototype.js?v=20260703-wellbeing-chat"></script>
+  </body>
+</html>

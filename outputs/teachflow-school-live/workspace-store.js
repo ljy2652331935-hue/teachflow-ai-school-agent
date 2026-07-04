@@ -32,6 +32,7 @@ const ACTION_ROLE_ACCESS = {read_workspace: ["teacher", "student", "school_admin
 const TEACHER_PERMISSIONS = ["read_class", "read_students", "approve_materials", "export_materials", "send_feedback"];
 const STUDENT_PERMISSIONS = ["read_self", "submit_assignment", "ask_agent", "send_stuck_signal", "send_check_in"];
 const STABLE_PUBLIC_INVITE_TOKEN = process.env.TEACHFLOW_PUBLIC_INVITE_TOKEN || "join-demo";
+const DEFAULT_PUBLIC_INVITE_ALIAS_TOKENS = ["join-6d37d5ced42095b94db1775a", "join-00c74581cd17b2cef3429fc9"];
 
 function getState(context) {const state = getRawState();
  authorizeContext(context, "read_workspace");
@@ -46,26 +47,37 @@ function getRawState() {const stored = readStateFile();
  writeStateFile(fresh);
  return clone(fresh);}
 
-function ensureStablePublicInvite(state) {const token = cleanText(STABLE_PUBLIC_INVITE_TOKEN, 160);
- if (!token) return false;
+function publicDemoInviteTokens() {const configured = String(process.env.TEACHFLOW_PUBLIC_INVITE_ALIASES || "").split(",");
+ const seen = new Set();
+ return [STABLE_PUBLIC_INVITE_TOKEN, ...DEFAULT_PUBLIC_INVITE_ALIAS_TOKENS, ...configured].map((token) => cleanText(token, 160)).filter(Boolean).filter((token) => {if (seen.has(token)) return false;
+ seen.add(token);
+ return true;});}
+
+function isPublicDemoInviteToken(token) {return publicDemoInviteTokens().includes(cleanText(token, 160));}
+
+function ensureStablePublicInvite(state, requestedToken) {const tokens = requestedToken? [cleanText(requestedToken, 160)]: publicDemoInviteTokens();
+ if (!tokens.length) return false;
  const classes = Array.isArray(state.classes)? state.classes: [];
  if (!classes.length) return false;
  const inviteLinks = Array.isArray(state.inviteLinks)? state.inviteLinks: [];
- if (inviteLinks.some((item) => item.token === token && item.active!== false)) return false;
  const classRecord = classes.find((item) => item.id === state.activeclassId) || classes[0];
  if (!classRecord?.id) return false;
  const teacherId = classRecord.teacherIds?.[0] || (state.accounts || []).find((account) => account.role === "teacher" && (account.classIds || []).includes(classRecord.id))?.id || null;
  const now = new Date().toISOString();
- const invite = {id: uniqueId(inviteLinks, "invite"),
+ let changed = false;
+ const nextInvites = [...inviteLinks];
+ tokens.forEach((token) => {if (nextInvites.some((item) => item.token === token && item.active!== false)) return;
+ nextInvites.push({id: uniqueId(nextInvites, "invite"),
  token,
  classId: classRecord.id,
  teacherId,
  active: true,
  stable: true,
- createdAt: classRecord.createdAt || now};
- classRecord.inviteToken = classRecord.inviteToken || token;
- state.inviteLinks = [...inviteLinks, invite];
- return true;}
+ createdAt: classRecord.createdAt || now});
+ changed = true;});
+ classRecord.inviteToken = classRecord.inviteToken || cleanText(STABLE_PUBLIC_INVITE_TOKEN, 160) || tokens[0];
+ if (changed) state.inviteLinks = nextInvites;
+ return changed;}
 
 function ensureStablePublicDemoClass(state) {const token = cleanText(STABLE_PUBLIC_INVITE_TOKEN, 160);
  if (!token || (Array.isArray(state.classes) && state.classes.length)) return false;
@@ -86,19 +98,18 @@ function ensureStablePublicDemoClass(state) {const token = cleanText(STABLE_PUBL
  status: "active",
  inviteToken: token,
  createdAt: now};
- const invite = {id: "invite-public-demo",
- token,
- classId,
- teacherId,
- active: true,
- stable: true,
- createdAt: now};
  state.school = {...(state.school || {}),
  id: state.school?.id || "school-live",
  name: state.school?.name && state.school.name!== "TeachFlow school"? state.school.name: "QE Learning Demo School"};
  state.accounts = [...(state.accounts || []), account];
  state.classes = [classRecord];
- state.inviteLinks = [invite];
+ state.inviteLinks = publicDemoInviteTokens().map((publicToken, index) => ({id: index? `invite-public-demo-${index}`: "invite-public-demo",
+ token: publicToken,
+ classId,
+ teacherId,
+ active: true,
+ stable: true,
+ createdAt: now}));
  state.activeclassId = classId;
  state.className = classRecord.name;
  state.topic = classRecord.topic;
@@ -164,7 +175,7 @@ function registerteacher(input) {const state = getRawState();
 
 function getInviteByToken(token) {const state = getRawState();
  const inviteToken = cleanText(token, 160);
- if (inviteToken === cleanText(STABLE_PUBLIC_INVITE_TOKEN, 160)) {const changed = ensureStablePublicInvite(state) || ensureStablePublicDemoClass(state);
+ if (isPublicDemoInviteToken(inviteToken)) {const changed = ensureStablePublicInvite(state, inviteToken) || ensureStablePublicDemoClass(state);
  if (changed) writeStateFile(state);}
  const invite = (state.inviteLinks || []).find((item) => item.token === inviteToken && item.active!== false)
  || (state.classes || []).map((classRecord) => ({id: `invite-${classRecord.id}`,

@@ -39,7 +39,8 @@ child.stderr.on("data", (chunk) => {output += chunk.toString();});
 
 (async () => {try {await waitForServer();
 
- const invite = await request("GET", "/api/session/invite?token=join-demo");
+ const legacyToken = "join-6d37d5ced42095b94db1775a";
+ const invite = await request("GET", `/api/session/invite?token=${legacyToken}`);
  assert.strictEqual(invite.body.className, "Year 12 Physics Demo");
  assert.strictEqual(invite.body.course, "Physics");
  assert.strictEqual(invite.body.topic, "Waves, frequency and signals");
@@ -47,10 +48,15 @@ child.stderr.on("data", (chunk) => {output += chunk.toString();});
 
  const stored = JSON.parse(fs.readFileSync(stateFile, "utf8"));
  assert.ok(stored.inviteLinks.some((item) => item.token === "join-demo" && item.stable === true));
+ assert.ok(stored.inviteLinks.some((item) => item.token === legacyToken && item.stable === true));
+ assert.ok(stored.inviteLinks.some((item) => item.token === "join-00c74581cd17b2cef3429fc9" && item.stable === true));
  assert.ok(stored.classes.some((item) => item.id === "class-public-demo"));
  assert.ok(stored.accounts.some((item) => item.id === "teacher-public-demo"));
 
- const pupilRegistration = await request("POST", "/api/session/register-student", {inviteToken: "join-demo",
+ const stableInvite = await request("GET", "/api/session/invite?token=join-demo");
+ assert.strictEqual(stableInvite.body.className, "Year 12 Physics Demo");
+
+ const pupilRegistration = await request("POST", "/api/session/register-student", {inviteToken: legacyToken,
  displayName: "Judge pupil"});
  assert.strictEqual(pupilRegistration.body.authenticated, true);
  assert.strictEqual(pupilRegistration.body.account.role, "student");

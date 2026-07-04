@@ -1,8 +1,8 @@
 services:
   - type: web
-    name: teachflow-demo
+    name: qe-learning-demo
     runtime: node
-    rootDir: outputs/teachflow-v0.1
+    rootDir: outputs/teachflow-school-live
     plan: free
     buildCommand: npm install
     startCommand: npm start

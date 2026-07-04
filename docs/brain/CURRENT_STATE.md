@@ -199,4 +199,4 @@ Build toward a school-trial-ready AI teaching system while preserving teacher co
 - Current stable judge join URL: `https://qe-learning-demo.onrender.com/login.html?join=join-demo`.
 - Current demo class: `Year 12 Physics Demo`, course `Physics`, topic `Waves, frequency and signals`.
 - Local QR image: `outputs/teachflow-school-live/qe-learning-judge-join-qr.png`.
-- Important: `join-demo` is now a stable public demo invite. If the Render persisted state already has a class but lacks an invite, the backend backfills this token automatically.
+- Important: `join-demo` is now a stable public demo invite. If Render has an existing class but lacks an invite, the backend backfills this token; if Render is empty, the first `join-demo` request creates a `Year 12 Physics Demo` class automatically.

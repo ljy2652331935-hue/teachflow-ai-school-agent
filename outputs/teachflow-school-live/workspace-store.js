@@ -67,6 +67,48 @@ function ensureStablePublicInvite(state) {const token = cleanText(STABLE_PUBLIC_
  state.inviteLinks = [...inviteLinks, invite];
  return true;}
 
+function ensureStablePublicDemoClass(state) {const token = cleanText(STABLE_PUBLIC_INVITE_TOKEN, 160);
+ if (!token || (Array.isArray(state.classes) && state.classes.length)) return false;
+ const now = new Date().toISOString();
+ const teacherId = "teacher-public-demo";
+ const classId = "class-public-demo";
+ const account = {id: teacherId,
+ role: "teacher",
+ displayName: "Ms Carter",
+ classIds: [classId],
+ permissions: TEACHER_PERMISSIONS};
+ const classRecord = {id: classId,
+ name: "Year 12 Physics Demo",
+ course: "Physics",
+ topic: "Waves, frequency and signals",
+ teacherIds: [teacherId],
+ studentAliases: [],
+ status: "active",
+ inviteToken: token,
+ createdAt: now};
+ const invite = {id: "invite-public-demo",
+ token,
+ classId,
+ teacherId,
+ active: true,
+ stable: true,
+ createdAt: now};
+ state.school = {...(state.school || {}),
+ id: state.school?.id || "school-live",
+ name: state.school?.name && state.school.name!== "TeachFlow school"? state.school.name: "QE Learning Demo School"};
+ state.accounts = [...(state.accounts || []), account];
+ state.classes = [classRecord];
+ state.inviteLinks = [invite];
+ state.activeclassId = classId;
+ state.className = classRecord.name;
+ state.topic = classRecord.topic;
+ appendAuditEvent(state, eventFromContext({role: "teacher",
+ userId: teacherId,
+ classId}, "stable_public_demo_invite_created", "class", classId, {className: classRecord.name,
+ course: classRecord.course,
+ stableInvite: true}));
+ return true;}
+
 function registerteacher(input) {const state = getRawState();
  const createdAt = new Date().toISOString();
  const teacherDisplayName = cleanText(input?.displayName, 80) || "teacher";
@@ -122,6 +164,8 @@ function registerteacher(input) {const state = getRawState();
 
 function getInviteByToken(token) {const state = getRawState();
  const inviteToken = cleanText(token, 160);
+ if (inviteToken === cleanText(STABLE_PUBLIC_INVITE_TOKEN, 160)) {const changed = ensureStablePublicInvite(state) || ensureStablePublicDemoClass(state);
+ if (changed) writeStateFile(state);}
  const invite = (state.inviteLinks || []).find((item) => item.token === inviteToken && item.active!== false)
  || (state.classes || []).map((classRecord) => ({id: `invite-${classRecord.id}`,
  token: classRecord.inviteToken,

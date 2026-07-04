@@ -11,20 +11,10 @@ const port = 6500 + Math.floor(Math.random() * 500);
 const stateFile = path.join(tempDir, "workspace-state.json");
 
 fs.writeFileSync(stateFile, JSON.stringify({version: 1,
- school: {id: "school-live", name: "QE Learning demo"},
- activeclassId: "class-demo",
- accounts: [{id: "teacher-demo",
- role: "teacher",
- displayName: "Demo teacher",
- classIds: ["class-demo"],
- permissions: ["read_class", "read_students", "approve_materials", "export_materials", "send_feedback"]}],
- classes: [{id: "class-demo",
- name: "Year 12 Physics Demo",
- course: "Physics",
- topic: "Waves and frequency",
- teacherIds: ["teacher-demo"],
- studentAliases: [],
- status: "active"}],
+ school: {id: "school-live", name: "TeachFlow school"},
+ activeclassId: null,
+ accounts: [],
+ classes: [],
  students: [],
  assignments: {},
  questions: [],
@@ -52,11 +42,13 @@ child.stderr.on("data", (chunk) => {output += chunk.toString();});
  const invite = await request("GET", "/api/session/invite?token=join-demo");
  assert.strictEqual(invite.body.className, "Year 12 Physics Demo");
  assert.strictEqual(invite.body.course, "Physics");
- assert.strictEqual(invite.body.topic, "Waves and frequency");
+ assert.strictEqual(invite.body.topic, "Waves, frequency and signals");
  assert.strictEqual(invite.body.active, true);
 
  const stored = JSON.parse(fs.readFileSync(stateFile, "utf8"));
  assert.ok(stored.inviteLinks.some((item) => item.token === "join-demo" && item.stable === true));
+ assert.ok(stored.classes.some((item) => item.id === "class-public-demo"));
+ assert.ok(stored.accounts.some((item) => item.id === "teacher-public-demo"));
 
  const pupilRegistration = await request("POST", "/api/session/register-student", {inviteToken: "join-demo",
  displayName: "Judge pupil"});

@@ -1,278 +1,178 @@
-window.TEACHFLOW_SCHEMAS = {
-  core_entities: [
-    "Teacher",
-    "Course",
-    "Topic",
-    "LearningObjective",
-    "LessonMaterial",
-    "StudentAlias",
-    "QuizResponse",
-    "AnalysisRun",
-    "Misconception",
-    "EvidenceQuote",
-    "Intervention",
-    "RevisedTeachingPlan",
-    "DifferentiatedMaterial",
-    "VisualAidPrompt",
-    "VideoStoryboard",
-    "MicroQuiz",
-    "TeacherNote",
-    "StudentFacingMaterial",
-    "InterventionStatus",
-    "InterventionVersion",
-    "SectionApproval",
-    "TeacherEdit",
-    "InterventionApproval",
-    "ExportPackage",
-    "RollbackEvent",
-    "StudentMemory",
-    "FollowupStudentUpdate",
-    "StudentMaterialAssignment",
-    "StudentReflection",
-    "StudentMicroQuizAttempt",
-    "StudentStuckSignal",
-    "UnderstandingMapNode",
-    "TeacherApproval",
-    "AuditLog"
-  ],
-  misconception_output_json_schema: {
-    analysis_run_id: "string",
-    topic: "string",
-    class_understanding_summary: "string",
-    student_levels: {
-      confused: ["S001"],
-      partially_understood: ["S002"],
-      ready_to_apply: ["S003"]
-    },
-    misconceptions: [
-      {
-        id: "string",
-        title: "string",
-        description: "string",
-        severity: "low | medium | high",
-        affected_students: ["S001", "S002"],
-        evidence_quotes: [
-          {
-            student_alias: "S001",
-            quote: "exact quote from student response",
-            why_it_matters: "string"
-          }
-        ],
-        likely_root_cause: "string",
-        teaching_need: "string",
-        recommended_next_action: "string"
-      }
-    ],
-    teacher_summary: "string"
-  },
-  intervention_output_json_schema: {
-    intervention_id: "string",
-    source_analysis_run_id: "string",
-    topic: "string",
-    intervention_summary: "string",
-    target_misconceptions: ["misconception_id"],
-    revised_teaching_plan: {
-      rationale: "string",
-      steps: [
-        {
-          step_number: 1,
-          title: "string",
-          teacher_action: "string",
-          student_action: "string",
-          linked_misconception_ids: ["string"]
-        }
-      ]
-    },
-    differentiated_materials: {
-      level_1_confused: {
-        target_students: ["S001"],
-        goal: "string",
-        explanation: "string",
-        analogy: "string",
-        task: "string",
-        linked_misconception_ids: ["string"]
-      },
-      level_2_partially_understood: {
-        target_students: ["S002"],
-        goal: "string",
-        explanation: "string",
-        concept_bridge: "string",
-        task: "string",
-        linked_misconception_ids: ["string"]
-      },
-      level_3_ready_to_apply: {
-        target_students: ["S003"],
-        goal: "string",
-        challenge: "string",
-        cross_domain_connections: ["string"],
-        linked_misconception_ids: ["string"]
-      }
-    },
-    visual_aid: {
-      image_prompt: "string",
-      diagram_description: "string",
-      labels: ["string"],
-      linked_misconception_ids: ["string"]
-    },
-    video_storyboard: [
-      {
-        scene_number: 1,
-        description: "string",
-        narration: "string"
-      }
-    ],
-    micro_quiz: [
-      {
-        question: "string",
-        purpose: "string",
-        expected_understanding: "string",
-        linked_misconception_ids: ["string"]
-      }
-    ],
-    teacher_notes: [
-      {
-        note: "string",
-        why_it_matters: "string",
-        linked_misconception_ids: ["string"]
-      }
-    ],
-    student_facing_material: {
-      title: "string",
-      audience: "student",
-      body: "string",
-      practice_prompt: "string",
-      linked_misconception_ids: ["string"]
-    },
-    export_markdown: "string"
-  },
-  teacher_control_layer_schema: {
-    intervention_status: "draft | under_review | edited | approved | rejected | exported | published | rolled_back",
-    section_approvals: {
-      revised_teaching_plan: {
-        section_key: "string",
-        label: "string",
-        status: "draft | under_review | edited | approved | needs_edit",
-        approved_by: "string | null",
-        approved_at: "string | null",
-        updated_at: "string"
-      }
-    },
-    version_history: [
-      {
-        version_id: "string",
-        intervention_id: "string",
-        version_number: 1,
-        created_by: "ai | teacher",
-        created_at: "string",
-        change_summary: "string",
-        section_key: "string | null",
-        content_snapshot: {}
-      }
-    ],
-    audit_log: [
-      {
-        audit_log_id: "string",
-        timestamp: "string",
-        actor: "teacher | ai_system",
-        action: "string",
-        target_type: "analysis | intervention | material | export | rollback",
-        target_id: "string",
-        details: "string"
-      }
-    ],
-    export_package: {
-      export_id: "string",
-      intervention_id: "string",
-      format: "markdown",
-      created_at: "string",
-      content: "string"
-    }
-  },
-  student_memory_schema: {
-    student_memories: [
-      {
-        id: "string",
-        topic_id: "string",
-        student_alias: "S001",
-        current_level: "confused | partially_understood | ready_to_apply",
-        understood: ["string"],
-        weak_points: ["string"],
-        misconception_ids: ["string"],
-        preferred_explanation_style: "visual | analogy | formula | example | application",
-        recommended_next_action: "string",
-        last_updated_at: "string"
-      }
-    ],
-    followup_analysis: {
-      followup_summary: "string",
-      student_updates: [
-        {
-          student_alias: "S001",
-          new_level: "confused | partially_understood | ready_to_apply",
-          evidence: "string",
-          remaining_weak_points: ["string"],
-          recommended_next_action: "string"
-        }
-      ],
-      next_teaching_recommendation: "string"
-    }
-  },
-  student_portal_lite_schema: {
-    assignments: [
-      {
-        id: "string",
-        intervention_id: "string",
-        topic_id: "string",
-        student_alias: "S001",
-        material_level: "confused | partially_understood | ready_to_apply",
-        assigned_at: "string",
-        completed_at: "string | null"
-      }
-    ],
-    reflections: [
-      {
-        id: "string",
-        topic_id: "string",
-        student_alias: "S001",
-        prompt: "string",
-        response: "string",
-        created_at: "string"
-      }
-    ],
-    micro_quiz_attempts: [
-      {
-        id: "string",
-        intervention_id: "string",
-        topic_id: "string",
-        student_alias: "S001",
-        answers: [{ question_id: "string", answer: "string" }],
-        submitted_at: "string"
-      }
-    ]
-  },
-  student_understanding_map_schema: {
-    stuck_signals: [
-      {
-        id: "string",
-        topic_id: "string",
-        student_alias: "S001",
-        stuck_type: "definition | diagram | formula_meaning | example_transfer | relevance | application",
-        free_text: "string",
-        created_at: "string"
-      }
-    ],
-    understanding_map_nodes: [
-      {
-        id: "string",
-        topic_id: "string",
-        student_alias: "S001",
-        concept: "string",
-        status: "understood | needs_support | not_yet_assessed",
-        evidence: ["string"],
-        recommended_action: "string",
-        preferred_explanation_style: "visual | analogy | formula | example | application",
-        updated_at: "string"
-      }
-    ]
-  }
-};
+window.TEACHFLOW_SCHEMAS = {core_entities: ["teacher",
+ "Course",
+ "Topic",
+ "LearningObjective",
+ "Lessonmaterial",
+ "StudentAlias",
+ "QuizResponse",
+ "AnalysisRun",
+ "Misconception",
+ "evidenceQuote",
+ "Intervention",
+ "RevisedTeachingPlan",
+ "Differentiatedmaterial",
+ "visualAidPrompt",
+ "VideoStoryboard",
+ "MicroQuiz",
+ "teacherNote",
+ "StudentFacingmaterial",
+ "Interventionstatus",
+ "Interventionversion",
+ "SectionApproval",
+ "teacherEdit",
+ "InterventionApproval",
+ "exportPackage",
+ "RollbackEvent",
+ "StudentMemory",
+ "FollowupStudentupdate",
+ "Studentmaterialassignment",
+ "StudentReflection",
+ "StudentMicroQuizAttempt",
+ "StudentStuckSignal",
+ "UnderstandingMapNode",
+ "teacherApproval",
+ "AuditLog"],
+ misconception_output_json_schema: {analysis_run_id: "string",
+ topic: "string",
+ class_understanding_summary: "string",
+ student_levels: {confused: ["S001"],
+ partially_understood: ["S002"],
+ ready_to_apply: ["S003"]},
+ misconceptions: [{id: "string",
+ title: "string",
+ description: "string",
+ severity: "low | medium | high",
+ affected_students: ["S001", "S002"],
+ evidence_quotes: [{student_alias: "S001",
+ quote: "exact quote from student response",
+ why_it_matters: "string"}],
+ likely_root_cause: "string",
+ teaching_need: "string",
+ recommended_next_action: "string"}],
+ teacher_summary: "string"},
+ intervention_output_json_schema: {intervention_id: "string",
+ source_analysis_run_id: "string",
+ topic: "string",
+ intervention_summary: "string",
+ target_misconceptions: ["misconception_id"],
+ revised_teaching_plan: {rationale: "string",
+ steps: [{step_number: 1,
+ title: "string",
+ teacher_action: "string",
+ student_action: "string",
+ linked_misconception_ids: ["string"]}]},
+ differentiated_materials: {level_1_confused: {target_students: ["S001"],
+ goal: "string",
+ explanation: "string",
+ analogy: "string",
+ task: "string",
+ linked_misconception_ids: ["string"]},
+ level_2_partially_understood: {target_students: ["S002"],
+ goal: "string",
+ explanation: "string",
+ concept_bridge: "string",
+ task: "string",
+ linked_misconception_ids: ["string"]},
+ level_3_ready_to_apply: {target_students: ["S003"],
+ goal: "string",
+ challenge: "string",
+ cross_domain_connections: ["string"],
+ linked_misconception_ids: ["string"]}},
+ visual_aid: {image_prompt: "string",
+ diagram_description: "string",
+ labels: ["string"],
+ linked_misconception_ids: ["string"]},
+ video_storyboard: [{scene_number: 1,
+ description: "string",
+ narration: "string"}],
+ micro_quiz: [{question: "string",
+ purpose: "string",
+ expected_understanding: "string",
+ linked_misconception_ids: ["string"]}],
+ teacher_notes: [{note: "string",
+ why_it_matters: "string",
+ linked_misconception_ids: ["string"]}],
+ student_facing_material: {title: "string",
+ audience: "student",
+ body: "string",
+ practice_prompt: "string",
+ linked_misconception_ids: ["string"]},
+ export_markdown: "string"},
+ teacher_control_layer_schema: {intervention_status: "draft | under_review | edited | approved | rejected | exported | published | rolled_back",
+ section_approvals: {revised_teaching_plan: {section_key: "string",
+ label: "string",
+ status: "draft | under_review | edited | approved | needs_edit",
+ approved_by: "string | null",
+ approved_at: "string | null",
+ updated_at: "string"}},
+ version_history: [{version_id: "string",
+ intervention_id: "string",
+ version_number: 1,
+ created_by: "ai | teacher",
+ created_at: "string",
+ change_summary: "string",
+ section_key: "string | null",
+ content_snapshot: {}}],
+ audit_log: [{audit_log_id: "string",
+ timestamp: "string",
+ actor: "teacher | ai_system",
+ action: "string",
+ target_type: "analysis | intervention | material | export | rollback",
+ target_id: "string",
+ details: "string"}],
+ export_package: {export_id: "string",
+ intervention_id: "string",
+ format: "markdown",
+ created_at: "string",
+ content: "string"}},
+ student_memory_schema: {student_memories: [{id: "string",
+ topic_id: "string",
+ student_alias: "S001",
+ current_level: "confused | partially_understood | ready_to_apply",
+ understood: ["string"],
+ weak_points: ["string"],
+ misconception_ids: ["string"],
+ preferred_explanation_style: "visual | analogy | formula | example | application",
+ recommended_next_action: "string",
+ last_updated_at: "string"}],
+ followup_analysis: {followup_summary: "string",
+ student_updates: [{student_alias: "S001",
+ new_level: "confused | partially_understood | ready_to_apply",
+ evidence: "string",
+ remaining_weak_points: ["string"],
+ recommended_next_action: "string"}],
+ next_teaching_recommendation: "string"}},
+ student_portal_lite_schema: {assignments: [{id: "string",
+ intervention_id: "string",
+ topic_id: "string",
+ student_alias: "S001",
+ material_level: "confused | partially_understood | ready_to_apply",
+ assigned_at: "string",
+ completed_at: "string | null"}],
+ reflections: [{id: "string",
+ topic_id: "string",
+ student_alias: "S001",
+ prompt: "string",
+ response: "string",
+ created_at: "string"}],
+ micro_quiz_attempts: [{id: "string",
+ intervention_id: "string",
+ topic_id: "string",
+ student_alias: "S001",
+ answers: [{question_id: "string", answer: "string"}],
+ submitted_at: "string"}]},
+ student_understanding_map_schema: {stuck_signals: [{id: "string",
+ topic_id: "string",
+ student_alias: "S001",
+ stuck_type: "definition | diagram | formula_meaning | example_transfer | relevance | application",
+ free_text: "string",
+ created_at: "string"}],
+ understanding_map_nodes: [{id: "string",
+ topic_id: "string",
+ student_alias: "S001",
+ concept: "string",
+ status: "understood | needs_support | not_yet_assessed",
+ evidence: ["string"],
+ recommended_action: "string",
+ preferred_explanation_style: "visual | analogy | formula | example | application",
+ updated_at: "string"}]}};

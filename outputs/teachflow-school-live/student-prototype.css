@@ -1,17 +1,18 @@
 :root {
-  --ink: #172230;
-  --muted: #697586;
-  --line: #dbe5e8;
-  --panel: #ffffff;
-  --page: #f5f8f8;
-  --mint: #dff2ef;
-  --teal: #0f766e;
-  --teal-dark: #075a55;
-  --blue: #315f96;
-  --green: #237152;
-  --gold: #a86513;
-  --coral: #b94f3a;
-  --shadow: 0 18px 42px rgba(23, 34, 48, 0.08);
+  --ink: var(--text-strong, #0f172a);
+  --muted: #64748b;
+  --line: var(--line, #e2e8f0);
+  --panel: var(--panel, #ffffff);
+  --page: var(--page, #f8fafc);
+  --mint: var(--blue-bg, #eff6ff);
+  --teal: var(--cta, #2563eb);
+  --teal-dark: var(--cta-hover, #1d4ed8);
+  --blue: var(--blue-ink, #2563eb);
+  --green: var(--green-ink, #10b981);
+  --gold: var(--yellow-ink, #f59e0b);
+  --coral: var(--red-ink, #ef4444);
+  --shadow: var(--shadow-card, 0 1px 3px rgba(15, 23, 42, 0.06));
+  --radius: 12px;
 }
 
 * {
@@ -44,18 +45,19 @@ img {
 
 .student-shell {
   display: grid;
-  grid-template-columns: 284px minmax(0, 1fr);
-  min-height: 100vh;
+  grid-template-columns: 240px minmax(0, 1fr);
+  min-height: calc(100vh - 72px);
+  background: var(--page);
 }
 
 .student-sidebar {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  min-height: 100vh;
-  padding: 22px;
+  min-height: calc(100vh - 72px);
+  padding: 20px 12px;
   border-right: 1px solid var(--line);
-  background: #eaf2f2;
+  background: var(--panel);
 }
 
 .student-brand {
@@ -67,12 +69,13 @@ img {
 .student-avatar {
   display: grid;
   place-items: center;
-  width: 50px;
-  height: 50px;
-  border-radius: 8px;
-  background: var(--teal);
-  color: #fff;
-  font-weight: 900;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: var(--blue-bg);
+  color: var(--blue);
+  font-weight: 600;
+  font-size: 13px;
 }
 
 .student-brand p,
@@ -102,12 +105,31 @@ img {
 
 .identity-card,
 .safe-note {
-  display: grid;
-  gap: 5px;
-  padding: 14px;
+  padding: 12px 14px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #fff;
+}
+
+.safe-note summary {
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+}
+
+.safe-note summary::-webkit-details-marker {
+  display: none;
+}
+
+.safe-note summary::after {
+  content: "+";
+  float: right;
+  color: var(--muted);
+}
+
+.safe-note[open] summary::after {
+  content: "−";
 }
 
 .identity-card span,
@@ -116,8 +138,13 @@ img {
   font-size: 13px;
 }
 
-.identity-card strong,
-.safe-note strong {
+.safe-note span {
+  display: block;
+  margin-top: 8px;
+  line-height: 1.55;
+}
+
+.identity-card strong {
   font-size: 15px;
 }
 
@@ -132,56 +159,74 @@ img {
 }
 
 .student-channel {
+  position: relative;
   display: grid;
-  grid-template-columns: 38px 1fr;
+  grid-template-columns: 28px 1fr;
   gap: 10px;
   align-items: center;
   width: 100%;
-  min-height: 62px;
-  padding: 10px;
-  border: 1px solid transparent;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 0;
   border-radius: 8px;
   background: transparent;
-  color: var(--ink);
+  color: var(--muted);
   text-align: left;
   cursor: pointer;
 }
 
-.student-channel:hover,
+.student-channel:hover {
+  background: #f1f5f9;
+  color: var(--ink);
+}
+
 .student-channel.active {
-  border-color: var(--line);
-  background: #fff;
-  box-shadow: 0 8px 22px rgba(23, 34, 48, 0.06);
+  background: var(--mint);
+  color: var(--blue);
+  box-shadow: none;
+}
+
+.student-channel.active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 3px;
+  height: 28px;
+  border-radius: 0 4px 4px 0;
+  background: var(--blue);
+  transform: translateY(-50%);
 }
 
 .channel-symbol {
   display: grid;
   place-items: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 8px;
-  background: var(--mint);
-  color: var(--teal-dark);
-  font-weight: 900;
+  width: 28px;
+  height: 28px;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font-weight: inherit;
+}
+
+.channel-symbol svg {
+  width: 20px;
+  height: 20px;
 }
 
 .student-channel.active .channel-symbol {
-  background: var(--teal);
-  color: #fff;
-}
-
-.student-channel strong,
-.student-channel small {
-  display: block;
+  background: transparent;
+  color: var(--blue);
 }
 
 .student-channel strong {
-  font-size: 15px;
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
 }
 
-.student-channel small {
-  color: var(--muted);
-  font-size: 12px;
+.student-channel.active strong {
+  font-weight: 600;
 }
 
 .safe-note {
@@ -232,12 +277,15 @@ img {
   border-color: var(--teal);
   background: var(--teal);
   color: #fff;
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(37, 99, 235, 0.2);
 }
 
 .secondary-button {
-  border-color: #c8d9dc;
-  background: #edf8f6;
-  color: var(--teal-dark);
+  border-color: var(--line);
+  background: #fff;
+  color: var(--ink);
+  font-weight: 600;
 }
 
 .student-content {
@@ -611,26 +659,6 @@ input[type="file"] {
   display: grid;
   gap: 14px;
   align-content: start;
-}
-
-.wellbeing-boundary {
-  display: grid;
-  gap: 6px;
-  padding: 14px;
-  border: 1px solid #efd9aa;
-  border-radius: 8px;
-  background: #fff9ed;
-}
-
-.wellbeing-boundary strong {
-  color: var(--gold);
-  font-size: 15px;
-}
-
-.wellbeing-boundary span {
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.55;
 }
 
 .checkin-state-grid {
@@ -1314,25 +1342,6 @@ input[type="file"] {
   box-shadow: none;
 }
 
-.student-dock-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.student-dock-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-}
-
-.student-dock-header strong {
-  font-size: 15px;
-}
-
 .student-dock-minimized-button {
   display: flex;
   align-items: center;
@@ -1362,30 +1371,6 @@ input[type="file"] {
   background: #fff5e8;
   color: var(--gold);
   font-size: 12px;
-}
-
-.student-dock-card {
-  display: grid;
-  gap: 5px;
-  width: 100%;
-  padding: 11px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: #f8fbfb;
-  color: var(--ink);
-  text-align: left;
-  cursor: pointer;
-}
-
-.student-dock-card:hover {
-  border-color: var(--teal);
-  background: #eef8f6;
-}
-
-.student-dock-card span {
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.45;
 }
 
 @media (max-width: 980px) {

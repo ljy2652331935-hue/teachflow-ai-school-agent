@@ -1,0 +1,176 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://teachflow.local/schemas/differentiated-intervention.schema.json",
+  "title": "TeachFlow Differentiated Intervention Generator",
+  "type": "object",
+  "required": [
+    "intervention_id",
+    "source_analysis_run_id",
+    "topic",
+    "intervention_summary",
+    "target_misconceptions",
+    "revised_teaching_plan",
+    "differentiated_materials",
+    "visual_aid",
+    "video_storyboard",
+    "micro_quiz",
+    "teacher_notes",
+    "student_facing_material",
+    "export_markdown"
+  ],
+  "properties": {
+    "intervention_id": { "type": "string" },
+    "source_analysis_run_id": { "type": "string" },
+    "topic": { "type": "string" },
+    "intervention_summary": { "type": "string" },
+    "target_misconceptions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "revised_teaching_plan": {
+      "type": "object",
+      "required": ["rationale", "steps"],
+      "properties": {
+        "rationale": { "type": "string" },
+        "steps": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/TeachingPlanStep" },
+          "minItems": 1
+        }
+      }
+    },
+    "differentiated_materials": {
+      "type": "object",
+      "required": ["level_1_confused", "level_2_partially_understood", "level_3_ready_to_apply"],
+      "properties": {
+        "level_1_confused": { "$ref": "#/$defs/LevelOneMaterial" },
+        "level_2_partially_understood": { "$ref": "#/$defs/LevelTwoMaterial" },
+        "level_3_ready_to_apply": { "$ref": "#/$defs/LevelThreeMaterial" }
+      }
+    },
+    "visual_aid": { "$ref": "#/$defs/VisualAid" },
+    "video_storyboard": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/StoryboardScene" },
+      "minItems": 1
+    },
+    "micro_quiz": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/MicroQuizQuestion" },
+      "minItems": 1
+    },
+    "teacher_notes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/TeacherNote" },
+      "minItems": 1
+    },
+    "student_facing_material": { "$ref": "#/$defs/StudentFacingMaterial" },
+    "export_markdown": { "type": "string" }
+  },
+  "$defs": {
+    "StudentAlias": {
+      "type": "string",
+      "pattern": "^S[0-9]{3}$"
+    },
+    "TeachingPlanStep": {
+      "type": "object",
+      "required": ["step_number", "title", "teacher_action", "student_action", "linked_misconception_ids"],
+      "properties": {
+        "step_number": { "type": "number" },
+        "title": { "type": "string" },
+        "teacher_action": { "type": "string" },
+        "student_action": { "type": "string" },
+        "linked_misconception_ids": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        }
+      }
+    },
+    "LevelOneMaterial": {
+      "type": "object",
+      "required": ["target_students", "goal", "explanation", "analogy", "task", "linked_misconception_ids"],
+      "properties": {
+        "target_students": { "type": "array", "items": { "$ref": "#/$defs/StudentAlias" } },
+        "goal": { "type": "string" },
+        "explanation": { "type": "string" },
+        "analogy": { "type": "string" },
+        "task": { "type": "string" },
+        "linked_misconception_ids": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+      }
+    },
+    "LevelTwoMaterial": {
+      "type": "object",
+      "required": ["target_students", "goal", "explanation", "concept_bridge", "task", "linked_misconception_ids"],
+      "properties": {
+        "target_students": { "type": "array", "items": { "$ref": "#/$defs/StudentAlias" } },
+        "goal": { "type": "string" },
+        "explanation": { "type": "string" },
+        "concept_bridge": { "type": "string" },
+        "task": { "type": "string" },
+        "linked_misconception_ids": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+      }
+    },
+    "LevelThreeMaterial": {
+      "type": "object",
+      "required": ["target_students", "goal", "challenge", "cross_domain_connections", "linked_misconception_ids"],
+      "properties": {
+        "target_students": { "type": "array", "items": { "$ref": "#/$defs/StudentAlias" } },
+        "goal": { "type": "string" },
+        "challenge": { "type": "string" },
+        "cross_domain_connections": { "type": "array", "items": { "type": "string" } },
+        "linked_misconception_ids": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+      }
+    },
+    "VisualAid": {
+      "type": "object",
+      "required": ["image_prompt", "diagram_description", "labels", "linked_misconception_ids"],
+      "properties": {
+        "image_prompt": { "type": "string" },
+        "diagram_description": { "type": "string" },
+        "labels": { "type": "array", "items": { "type": "string" } },
+        "linked_misconception_ids": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+      }
+    },
+    "StoryboardScene": {
+      "type": "object",
+      "required": ["scene_number", "description", "narration"],
+      "properties": {
+        "scene_number": { "type": "number" },
+        "description": { "type": "string" },
+        "narration": { "type": "string" }
+      }
+    },
+    "MicroQuizQuestion": {
+      "type": "object",
+      "required": ["question", "purpose", "expected_understanding", "linked_misconception_ids"],
+      "properties": {
+        "question": { "type": "string" },
+        "purpose": { "type": "string" },
+        "expected_understanding": { "type": "string" },
+        "linked_misconception_ids": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+      }
+    },
+    "TeacherNote": {
+      "type": "object",
+      "required": ["note", "why_it_matters", "linked_misconception_ids"],
+      "properties": {
+        "note": { "type": "string" },
+        "why_it_matters": { "type": "string" },
+        "linked_misconception_ids": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+      }
+    },
+    "StudentFacingMaterial": {
+      "type": "object",
+      "required": ["title", "audience", "body", "practice_prompt", "linked_misconception_ids"],
+      "properties": {
+        "title": { "type": "string" },
+        "audience": { "type": "string", "const": "student" },
+        "body": { "type": "string" },
+        "practice_prompt": { "type": "string" },
+        "linked_misconception_ids": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+      }
+    }
+  }
+}

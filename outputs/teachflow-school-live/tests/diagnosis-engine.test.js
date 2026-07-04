@@ -13,26 +13,22 @@ S008,"Frequency domain shows what frequencies are inside the signal",5`;
 
 const responses = engine.parseQuizResponses(csv);
 assert.strictEqual(responses.length, 8);
-assert.deepStrictEqual(responses.map((response) => response.student_alias), [
-  "S001",
-  "S002",
-  "S003",
-  "S004",
-  "S005",
-  "S006",
-  "S007",
-  "S008"
-]);
+assert.deepStrictEqual(responses.map((response) => response.student_alias), ["S001",
+ "S002",
+ "S003",
+ "S004",
+ "S005",
+ "S006",
+ "S007",
+ "S008"]);
 
-const analysis = engine.diagnoseUnderstanding({
-  topic: "Fourier Transform",
-  learning_objectives: [],
-  lesson_material: "",
-  quiz_responses: responses
-});
+const analysis = engine.diagnoseUnderstanding({topic: "Fourier Transform",
+ learning_objectives: [],
+ lesson_material: "",
+ quiz_responses: responses});
 
 assert.strictEqual(analysis.topic, "Fourier Transform");
-assert.ok(analysis.class_understanding_summary.includes("部分理解"));
+assert.ok(analysis.class_understanding_summary.includes("Developing"));
 assert.ok(analysis.misconceptions.length >= 3);
 
 const formulaOnly = analysis.misconceptions.find((item) => item.id === "formula-only");
@@ -41,9 +37,7 @@ assert.strictEqual(formulaOnly.severity, "high");
 assert.deepStrictEqual(formulaOnly.affected_students, ["S001", "S007"]);
 assert.ok(formulaOnly.evidence_quotes.some((evidence) => evidence.quote === "Fourier Transform is just a formula for waves"));
 
-analysis.misconceptions.forEach((misconception) => {
-  assert.ok(misconception.evidence_quotes.length > 0);
-});
+analysis.misconceptions.forEach((misconception) => {assert.ok(misconception.evidence_quotes.length > 0);});
 
 const validation = engine.validateAnalysis(analysis, responses);
 assert.strictEqual(validation.valid, true);

@@ -21,19 +21,19 @@ After deployment, Render provides a public `https://...onrender.com` URL. Open t
 
 The login page shows clickable demo identities. Use these two for two-window testing:
 
-- Teacher: `test-teacher` / `测试老师`
-- Student: `test-student-s002` / `测试学生 S002`
+- teacher: `test-teacher` / `teacher`
+- Student: `test-student-s002` / `student S002`
 
 Both are scoped to the same demo class and the same anonymous student alias `S002`, so student submissions, stuck signals, and check-ins can be checked from the teacher view.
 
 ## Two-Window Test Flow
 
-1. Open the deployed URL in one browser window and choose `测试老师`.
-2. Open the deployed URL in an incognito/private window or another browser and choose `测试学生 S002`.
+1. Open the deployed URL in one browser window and choose `teacher`.
+2. Open the deployed URL in an incognito/private window or another browser and choose `student S002`.
 3. In the student window, submit homework, ask a question, send a stuck signal, or share a learning check-in.
-4. In the teacher window, open `教学分析` and check that the new signal appears in the workspace and detail modal.
+4. In the teacher window, open `learninganalysis` and check that the new signal appears in the workspace and detail modal.
 
-## Current Limits
+## current Limits
 
 - Demo accounts have no passwords. Anyone with the public URL can open the demo identities.
 - Sessions are in memory. A server restart logs users out.

@@ -2,14 +2,14 @@
 
 Date: 2026-06-30
 
-## Summary
+## summary
 
 TeachFlow has been advanced from v0.2 to v0.3.
 
 The project now has two new system-level capabilities:
 
 1. Student Understanding Map
-2. School Agent Console
+2. school Agent Console
 
 Together, these move TeachFlow closer to an AI school system agent rather than a single-purpose teaching demo.
 
@@ -27,13 +27,13 @@ Students can now:
 - submit an "I am stuck because..." signal
 - request another controlled explanation without opening an unrestricted chatbot
 
-Teachers can now:
+teachers can now:
 
 - see class-level understanding-map summaries
 - inspect support needs by alias
 - assign the next action from the map
 
-### School Agent Console
+### school Agent Console
 
 Added a lightweight school-system agent layer.
 
@@ -56,7 +56,7 @@ This is currently deterministic and local. It is designed to become the outer co
 - `tests/understanding-map-engine.test.js`
 - `tests/school-agent-engine.test.js`
 
-## Updated Files
+## updated Files
 
 - `app.js`
 - `styles.css`
@@ -94,4 +94,4 @@ Build v0.4 Follow-up Assessment and Learning Gains:
 - compare before/after understanding signals
 - produce a learning-gain report
 - avoid claiming official grades or guaranteed causal improvement
-- let the School Agent Console surface remaining support needs
+- let the school Agent Console surface remaining support needs

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TeachFlow MVP</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="TeachFlow navigation">
+        <div class="brand-block">
+          <div class="brand-mark">TF</div>
+          <div>
+            <p class="eyebrow">TeachFlow</p>
+            <h1>Teaching Control System</h1>
+          </div>
+        </div>
+
+        <div class="status-box">
+          <span class="status-label">Current Status</span>
+          <strong id="workflow-status">Draft</strong>
+        </div>
+
+        <nav class="nav-list" id="nav-list" aria-label="MVP modules"></nav>
+
+        <div class="workflow-rail" id="workflow-rail" aria-label="Workflow progress"></div>
+
+        <section class="audit-panel" aria-labelledby="audit-title">
+          <div class="audit-heading">
+            <h2 id="audit-title">Audit Log</h2>
+            <span id="audit-count">0</span>
+          </div>
+          <ol id="audit-log" class="audit-log"></ol>
+        </section>
+      </aside>
+
+      <main class="main-area">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow" id="view-kicker">MVP Demo Flow</p>
+            <h2 id="view-title">Teacher Dashboard</h2>
+          </div>
+          <button class="ghost-button" type="button" data-action="reset-demo">Reset Demo</button>
+        </header>
+
+        <section id="app" class="workspace" aria-live="polite"></section>
+      </main>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

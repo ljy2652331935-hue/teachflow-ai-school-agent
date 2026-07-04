@@ -1,0 +1,23 @@
+{
+  "teacher": {
+    "id": "teacher-demo-001",
+    "display_name": "Pilot Teacher",
+    "role": "Teacher"
+  },
+  "course": {
+    "id": "course-intro-signals",
+    "title": "Intro to Signals"
+  },
+  "topic": {
+    "id": "topic-fourier-transform",
+    "title": "Fourier Transform"
+  },
+  "learning_objectives": [
+    "Students should be able to explain Fourier Transform in simple language.",
+    "Students should understand the difference between time domain and frequency domain.",
+    "Students should describe how a complex signal can be decomposed into simple waves.",
+    "Students should connect Fourier Transform to at least one real-world application."
+  ],
+  "lesson_material": "Fourier Transform converts a signal from the time domain into the frequency domain.",
+  "quiz_responses_csv": "student_id,answer,confidence\nS001,\"Fourier Transform is just a formula for waves\",2\nS002,\"It turns time into frequency but I don't know why\",2"
+}

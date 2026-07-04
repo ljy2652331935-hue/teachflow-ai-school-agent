@@ -1,105 +1,65 @@
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://teachflow.local/schemas/teacher-control-layer.schema.json",
-  "title": "TeachFlow Teacher Control Layer",
-  "type": "object",
-  "required": [
-    "intervention_status",
-    "section_approvals",
-    "version_history",
-    "audit_log",
-    "export_packages",
-    "rollback_events"
-  ],
-  "properties": {
-    "intervention_status": {
-      "type": "string",
-      "enum": ["draft", "under_review", "edited", "approved", "rejected", "exported", "published", "rolled_back"]
-    },
-    "section_approvals": {
-      "type": "object",
-      "additionalProperties": { "$ref": "#/$defs/SectionApproval" }
-    },
-    "version_history": {
-      "type": "array",
-      "items": { "$ref": "#/$defs/InterventionVersion" }
-    },
-    "audit_log": {
-      "type": "array",
-      "items": { "$ref": "#/$defs/AuditLog" }
-    },
-    "export_packages": {
-      "type": "array",
-      "items": { "$ref": "#/$defs/ExportPackage" }
-    },
-    "rollback_events": {
-      "type": "array",
-      "items": { "$ref": "#/$defs/RollbackEvent" }
-    }
-  },
-  "$defs": {
-    "SectionApproval": {
-      "type": "object",
-      "required": ["section_key", "label", "status", "updated_at"],
-      "properties": {
-        "section_key": { "type": "string" },
-        "label": { "type": "string" },
-        "status": { "type": "string" },
-        "approved_by": { "type": ["string", "null"] },
-        "approved_at": { "type": ["string", "null"] },
-        "updated_at": { "type": "string" }
-      }
-    },
-    "InterventionVersion": {
-      "type": "object",
-      "required": ["version_id", "intervention_id", "version_number", "created_by", "created_at", "change_summary", "content_snapshot"],
-      "properties": {
-        "version_id": { "type": "string" },
-        "intervention_id": { "type": "string" },
-        "version_number": { "type": "number" },
-        "created_by": { "type": "string", "enum": ["ai", "teacher"] },
-        "created_at": { "type": "string" },
-        "change_summary": { "type": "string" },
-        "section_key": { "type": ["string", "null"] },
-        "status": { "type": "string" },
-        "content_snapshot": { "type": "object" }
-      }
-    },
-    "AuditLog": {
-      "type": "object",
-      "required": ["audit_log_id", "timestamp", "actor", "action", "target_type", "target_id", "details"],
-      "properties": {
-        "audit_log_id": { "type": "string" },
-        "timestamp": { "type": "string" },
-        "actor": { "type": "string", "enum": ["teacher", "ai_system"] },
-        "action": { "type": "string" },
-        "target_type": { "type": "string" },
-        "target_id": { "type": "string" },
-        "details": { "type": "string" }
-      }
-    },
-    "ExportPackage": {
-      "type": "object",
-      "required": ["export_id", "intervention_id", "format", "created_at", "content"],
-      "properties": {
-        "export_id": { "type": "string" },
-        "intervention_id": { "type": "string" },
-        "format": { "type": "string", "const": "markdown" },
-        "created_at": { "type": "string" },
-        "status_at_export": { "type": "string" },
-        "content": { "type": "string" }
-      }
-    },
-    "RollbackEvent": {
-      "type": "object",
-      "required": ["rollback_id", "restored_version_id", "created_at", "actor", "details"],
-      "properties": {
-        "rollback_id": { "type": "string" },
-        "restored_version_id": { "type": "string" },
-        "created_at": { "type": "string" },
-        "actor": { "type": "string", "const": "teacher" },
-        "details": { "type": "string" }
-      }
-    }
-  }
-}
+{"$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "https://teachflow.local/schemas/teacher-control-layer.schema.json",
+ "title": "TeachFlow teacher Control Layer",
+ "type": "object",
+ "required": ["intervention_status",
+ "section_approvals",
+ "version_history",
+ "audit_log",
+ "export_packages",
+ "rollback_events"],
+ "properties": {"intervention_status": {"type": "string",
+ "enum": ["draft", "under_review", "edited", "approved", "rejected", "exported", "published", "rolled_back"]},
+ "section_approvals": {"type": "object",
+ "additionalProperties": {"$ref": "#/$defs/SectionApproval"}},
+ "version_history": {"type": "array",
+ "items": {"$ref": "#/$defs/Interventionversion"}},
+ "audit_log": {"type": "array",
+ "items": {"$ref": "#/$defs/AuditLog"}},
+ "export_packages": {"type": "array",
+ "items": {"$ref": "#/$defs/exportPackage"}},
+ "rollback_events": {"type": "array",
+ "items": {"$ref": "#/$defs/RollbackEvent"}}},
+ "$defs": {"SectionApproval": {"type": "object",
+ "required": ["section_key", "label", "status", "updated_at"],
+ "properties": {"section_key": {"type": "string"},
+ "label": {"type": "string"},
+ "status": {"type": "string"},
+ "approved_by": {"type": ["string", "null"]},
+ "approved_at": {"type": ["string", "null"]},
+ "updated_at": {"type": "string"}}},
+ "Interventionversion": {"type": "object",
+ "required": ["version_id", "intervention_id", "version_number", "created_by", "created_at", "change_summary", "content_snapshot"],
+ "properties": {"version_id": {"type": "string"},
+ "intervention_id": {"type": "string"},
+ "version_number": {"type": "number"},
+ "created_by": {"type": "string", "enum": ["ai", "teacher"]},
+ "created_at": {"type": "string"},
+ "change_summary": {"type": "string"},
+ "section_key": {"type": ["string", "null"]},
+ "status": {"type": "string"},
+ "content_snapshot": {"type": "object"}}},
+ "AuditLog": {"type": "object",
+ "required": ["audit_log_id", "timestamp", "actor", "action", "target_type", "target_id", "details"],
+ "properties": {"audit_log_id": {"type": "string"},
+ "timestamp": {"type": "string"},
+ "actor": {"type": "string", "enum": ["teacher", "ai_system"]},
+ "action": {"type": "string"},
+ "target_type": {"type": "string"},
+ "target_id": {"type": "string"},
+ "details": {"type": "string"}}},
+ "exportPackage": {"type": "object",
+ "required": ["export_id", "intervention_id", "format", "created_at", "content"],
+ "properties": {"export_id": {"type": "string"},
+ "intervention_id": {"type": "string"},
+ "format": {"type": "string", "const": "markdown"},
+ "created_at": {"type": "string"},
+ "status_at_export": {"type": "string"},
+ "content": {"type": "string"}}},
+ "RollbackEvent": {"type": "object",
+ "required": ["rollback_id", "restored_version_id", "created_at", "actor", "details"],
+ "properties": {"rollback_id": {"type": "string"},
+ "restored_version_id": {"type": "string"},
+ "created_at": {"type": "string"},
+ "actor": {"type": "string", "const": "teacher"},
+ "details": {"type": "string"}}}}}

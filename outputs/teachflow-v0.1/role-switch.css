@@ -1,0 +1,445 @@
+/* =========================================================================
+   TeachFlow · Shared chrome (role portal bar, role tabs, login, auth gate)
+   Design protocol: Premium Utilitarian Minimalism (taste-skill / minimalist-ui)
+   ========================================================================= */
+
+:root {
+  --rs-page: #f7f6f3;
+  --rs-panel: #ffffff;
+  --rs-surface: #fbfbfa;
+  --rs-surface-2: #f4f3f0;
+  --rs-line: #eaeaea;
+  --rs-text: #2f3437;
+  --rs-text-strong: #191919;
+  --rs-muted: #787774;
+  --rs-cta: #111111;
+  --rs-cta-hover: #333333;
+  --rs-blue-bg: #e1f3fe;
+  --rs-blue-ink: #1f6c9f;
+
+  --rs-font-sans: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", system-ui, sans-serif;
+  --rs-font-display: "Newsreader", "Playfair Display", Georgia, "Songti SC", serif;
+  --rs-font-mono: "JetBrains Mono", "SF Mono", ui-monospace, Consolas, monospace;
+}
+
+/* =========================================================================
+   Role portal bar
+   ========================================================================= */
+
+.role-portal-bar {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  display: grid;
+  grid-template-columns: minmax(220px, 0.7fr) minmax(360px, 1fr) auto;
+  gap: 16px;
+  align-items: center;
+  min-height: 72px;
+  padding: 12px 24px;
+  border-bottom: 1px solid var(--rs-line);
+  background: rgba(247, 246, 243, 0.9);
+  backdrop-filter: saturate(1.3) blur(10px);
+}
+
+.role-portal-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.role-portal-mark {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  background: var(--rs-cta);
+  color: #fff;
+  font-family: var(--rs-font-mono);
+  font-weight: 700;
+}
+
+.role-portal-brand p,
+.role-portal-brand h1,
+.redirect-card p,
+.redirect-card h1 {
+  margin: 0;
+}
+
+.role-portal-brand p,
+.redirect-card p {
+  color: var(--rs-muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.role-portal-brand h1 {
+  margin-top: 2px;
+  color: var(--rs-text-strong);
+  font-size: 18px;
+  line-height: 1.15;
+}
+
+.role-switch-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  padding: 5px;
+  border: 1px solid var(--rs-line);
+  border-radius: 10px;
+  background: var(--rs-surface-2);
+}
+
+.role-switch-link {
+  display: grid;
+  gap: 2px;
+  min-height: 48px;
+  padding: 8px 14px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: var(--rs-text);
+  text-align: left;
+  text-decoration: none;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.role-switch-link:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.role-switch-link.active {
+  border-color: var(--rs-line);
+  background: var(--rs-panel);
+  color: var(--rs-text-strong);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.role-switch-link span {
+  font-size: 14.5px;
+  font-weight: 600;
+}
+
+.role-switch-link small {
+  color: var(--rs-muted);
+  font-size: 12px;
+}
+
+.role-portal-meta {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.role-portal-meta span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 4px 10px;
+  border: 1px solid var(--rs-line);
+  border-radius: 999px;
+  background: var(--rs-panel);
+  color: var(--rs-muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.role-session-button,
+.session-link-button {
+  min-height: 28px;
+  padding: 4px 12px;
+  border: 1px solid var(--rs-line);
+  border-radius: 6px;
+  background: var(--rs-panel);
+  color: var(--rs-text);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+.role-session-button:hover,
+.session-link-button:hover {
+  border-color: #cfcfcb;
+}
+
+/* =========================================================================
+   Auth gate
+   ========================================================================= */
+
+.auth-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(25, 25, 25, 0.4);
+  backdrop-filter: blur(4px);
+}
+
+.auth-gate-card {
+  width: min(760px, 100%);
+  max-height: calc(100vh - 48px);
+  overflow: auto;
+}
+
+/* =========================================================================
+   Login page
+   ========================================================================= */
+
+.login-page {
+  min-height: 100vh;
+  margin: 0;
+  background: var(--rs-page);
+  color: var(--rs-text);
+  font-family: var(--rs-font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.login-root {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 24px;
+}
+
+.login-panel {
+  display: grid;
+  gap: 20px;
+  width: min(760px, 100%);
+  padding: 32px;
+  border: 1px solid var(--rs-line);
+  border-radius: 14px;
+  background: var(--rs-panel);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+}
+
+.login-brand-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.login-brand-row p,
+.login-brand-row h1 {
+  margin: 0;
+}
+
+.login-brand-row p {
+  color: var(--rs-muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.login-brand-row h1 {
+  margin-top: 3px;
+  color: var(--rs-text-strong);
+  font-family: var(--rs-font-display);
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+}
+
+.login-brand-row span,
+.login-subtitle,
+.login-privacy-note,
+.current-session-box small {
+  color: var(--rs-muted);
+  font-size: 13px;
+}
+
+.login-subtitle {
+  margin: 0;
+  line-height: 1.55;
+}
+
+.login-account-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.login-account-card {
+  display: grid;
+  gap: 7px;
+  min-height: 148px;
+  padding: 16px;
+  border: 1px solid var(--rs-line);
+  border-radius: 10px;
+  background: var(--rs-surface);
+  color: var(--rs-text);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.05s ease;
+}
+
+.login-account-card:hover,
+.login-account-card:focus-visible {
+  border-color: var(--rs-text);
+  background: #fff;
+  outline: none;
+  transform: translateY(-1px);
+}
+
+.login-account-card:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.login-account-card span {
+  color: var(--rs-muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.login-account-card strong {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--rs-text-strong);
+}
+
+.login-account-card small,
+.login-account-card em {
+  color: var(--rs-muted);
+  font-size: 13px;
+  font-style: normal;
+}
+
+.current-session-box {
+  display: grid;
+  gap: 5px;
+  padding: 14px;
+  border: 1px solid var(--rs-blue-bg);
+  border-radius: 10px;
+  background: var(--rs-blue-bg);
+}
+
+.current-session-box span {
+  color: var(--rs-blue-ink);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.current-session-box strong {
+  color: var(--rs-text-strong);
+}
+
+.login-privacy-note {
+  margin: 0;
+  padding-top: 4px;
+}
+
+/* =========================================================================
+   Role portal blur states
+   ========================================================================= */
+
+.auth-gate-open .teacher-shell,
+.auth-gate-open .student-shell {
+  filter: blur(2px);
+  pointer-events: none;
+}
+
+.has-role-portal .teacher-shell,
+.has-role-portal .student-shell {
+  min-height: calc(100vh - 72px);
+}
+
+/* =========================================================================
+   Redirect splash
+   ========================================================================= */
+
+.redirect-page {
+  display: grid;
+  min-height: 100vh;
+  margin: 0;
+  place-items: center;
+  background: var(--rs-page);
+  color: var(--rs-text);
+  font-family: var(--rs-font-sans);
+}
+
+.redirect-card {
+  display: grid;
+  gap: 12px;
+  width: min(420px, calc(100vw - 32px));
+  padding: 28px;
+  border: 1px solid var(--rs-line);
+  border-radius: 14px;
+  background: var(--rs-panel);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+}
+
+.redirect-card h1 {
+  font-family: var(--rs-font-display);
+  font-weight: 500;
+  font-size: 26px;
+  letter-spacing: -0.02em;
+  color: var(--rs-text-strong);
+}
+
+.redirect-card a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  min-height: 42px;
+  padding: 0 18px;
+  border-radius: 6px;
+  background: var(--rs-cta);
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+
+.redirect-card a:hover {
+  background: var(--rs-cta-hover);
+}
+
+/* =========================================================================
+   Responsive
+   ========================================================================= */
+
+@media (max-width: 980px) {
+  .role-portal-bar {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+
+  .role-portal-meta {
+    justify-content: flex-start;
+  }
+
+  .login-account-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 620px) {
+  .role-portal-bar {
+    padding: 12px;
+  }
+
+  .role-switch-tabs {
+    grid-template-columns: 1fr;
+  }
+
+  .login-panel {
+    padding: 22px;
+  }
+}

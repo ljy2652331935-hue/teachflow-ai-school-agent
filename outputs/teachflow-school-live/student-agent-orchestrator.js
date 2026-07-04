@@ -1,5 +1,5 @@
 (function (global) {
-  const DEFAULT_TOPIC = "当前主题";
+  const DEFAULT_TOPIC = "current topic";
 
   function buildStudentBriefing(input, options) {
     const state = input || {};
@@ -7,7 +7,7 @@
     const student = Array.isArray(state.students) ? state.students[0] : null;
     const alias = context.studentAlias || student?.id || "S001";
     const topic = state.topic || student?.topic || DEFAULT_TOPIC;
-    const assignmentStatus = state.assignments?.[alias] || "草稿未提交";
+    const assignmentStatus = state.assignments?.[alias] || "draft not submitted";
     const questions = recentForAlias(state.questions, alias);
     const stuckSignals = recentForAlias(state.stuckSignals, alias);
     const checkIns = recentForAlias(state.checkIns, alias);
@@ -35,108 +35,105 @@
 
     return {
       agentId: "student-agent-orchestrator",
-      name: "AI 学习伙伴",
+      name: "AI learning assistant",
       role: "Student Learning Agent",
       generatedAt: new Date().toISOString(),
       studentAlias: alias,
       className: state.accessBoundary?.className || state.className || "",
       topic,
-      summary: `你现在正在学习「${topic}」。我看到你的主要卡点是「${profile.stuckType}」，作业状态是「${assignmentStatus}」。下一步先做一个小动作：${nextPlan[0]?.action || "复习老师材料"}。`,
+      summary: `You are currently learning ${topic}. Your main stuck point is ${profile.stuckType}, and your assignment status is ${assignmentStatus}. Start with: ${nextPlan[0]?.action || "review teacher material"}.`,
       profile,
       nextPlan,
-      teacherSignalDraft: stuckDraft.teacherSummary,
-      shareDraft: stuckDraft,
+      teacherSignaldraft: stuckDraft.teachersummary,
+      sharedraft: stuckDraft,
       sourceSignals: [
-        { type: "assignment", label: "作业状态", count: assignmentStatus ? 1 : 0 },
-        { type: "questions", label: "学习提问", count: questions.length },
-        { type: "stuck_signals", label: "卡点记录", count: stuckSignals.length },
-        { type: "check_ins", label: "学习状态", count: checkIns.length },
-        { type: "teacher_messages", label: "老师回复", count: messages.filter((item) => item.senderRole === "teacher").length }
+        { type: "assignment", label: "assignment status", count: assignmentStatus ? 1 : 0 },
+        { type: "questions", label: "questions", count: questions.length },
+        { type: "stuck_signals", label: "stuck signal log", count: stuckSignals.length },
+        { type: "check_ins", label: "learning check-ins", count: checkIns.length },
+        { type: "teacher_messages", label: "teacher replies", count: messages.filter((item) => item.senderRole === "teacher").length }
       ],
       memory: buildMemory(profile, latestStuck, latestCheckIn, latestTeacherMessage),
-      privacyNotes: [
-        "学生 Agent 只能读取你自己的学习空间，不能看到其他学生。",
-        "普通学习解释不会自动发送给老师。",
-        "只有你点击分享，整理后的卡点摘要才会进入老师端教学分析和消息中心。",
-        "它不会替你完成作业，只会给解释、提示、下一步和求助草稿。"
+      privacynotes: [
+        "Your learning agent only uses your own workspace.",
+        "Your ordinary chat stays private by default.",
+        "Only when you tap Share will the teacher see a short stuck-signal summary.",
+        "The agent gives hints, small steps and help-request drafts, not final assignment answers."
       ],
       allowedData: [
-        "自己的作业状态",
-        "自己的学习提问",
-        "自己的卡点记录",
-        "自己的 Check-in",
-        "老师发给自己的消息",
-        "老师批准的学习材料"
+        "your assignment status",
+        "your questions",
+        "your stuck signal log",
+        "your check-ins",
+        "teacher messages sent to you",
+        "teacher-approved materials"
       ],
       blockedData: [
-        "其他学生信息",
-        "老师端完整教学分析",
-        "学校管理端聚合数据",
-        "老师未批准的材料草稿"
+        "other pupils' work",
+        "teacher-only class insights",
+        "school-admin aggregate data",
+        "teacher approval drafts before publishing"
       ]
     };
   }
 
-  function answerStudentQuestion(question, briefingInput) {
+  function answerStudentquestion(question, briefingInput) {
     const text = clean(question, 600);
     const briefing = briefingInput || buildStudentBriefing({});
+
     if (!text) {
-      return response("你可以问：这张图怎么看？公式里的符号是什么意思？我下一步应该先补哪里？", briefing);
+      return response("You can ask something specific, for example: How should I read this diagram? What does this symbol mean? What is my next small step?", briefing);
     }
 
-    if (/答案|直接写|帮我写|代写|complete my homework|do my homework/i.test(text)) {
+    if (/answer|complete my homework|do my homework|write the assignment/i.test(text)) {
       return response(
-        "我不能直接替你完成作业，但可以帮你把题目拆成第一步。先写一句：这题在问同一个信号的哪一种表示？然后我可以继续帮你检查思路。",
+        "I cannot complete the assignment for you, but I can help you break it down. Start with one sentence: what do you know, what is uncertain, and what example would help?",
         briefing,
-        "先写出自己的第一句话"
+        "Write one honest sentence about where you are stuck."
       );
     }
 
-    if (/老师|分享|发给|求助/.test(text)) {
+    if (/teacher|share|help request/i.test(text)) {
       return response(
-        `可以整理成这样发给老师：${briefing.teacherSignalDraft}`,
+        `You can share this with your teacher after you confirm it: ${briefing.teacherSignaldraft}`,
         briefing,
-        "确认后点击“分享给老师”"
+        "Check the summary, then tap Share with teacher if you want the teacher to see it."
       );
     }
 
-    if (/下一步|先补|计划|怎么学/.test(text)) {
+    if (/next step|start|first/i.test(text)) {
       const first = briefing.nextPlan[0];
+      return response(`Suggested first step: ${first.action}. ${first.detail}`, briefing, first.action);
+    }
+
+    if (/diagram|left|right|waveform|frequency graph|visual/i.test(text)) {
       return response(
-        `建议先做「${first.action}」：${first.detail}`,
+        "Look at the diagram first, without the formula. The left-hand side shows the signal changing over time; the right-hand side breaks the same signal into simple frequencies. Find those two parts before doing any calculation.",
         briefing,
-        first.action
+        "Circle the complex waveform on the left and the simple frequencies on the right."
       );
     }
 
-    if (/图|图示|左|右|波形|频率图|看/.test(text)) {
+    if (/formula|symbol|equation/i.test(text)) {
       return response(
-        "先只看图，不碰公式：左边是同一个信号随时间变化的样子；右边是把它拆成几个简单频率。你现在只需要做一件事：在图上找出“复杂波形”和“简单频率”分别在哪里。",
+        "Turn the formula into words before using it. For each symbol, write what it represents in the physical situation, then ask which symbol is still unclear.",
         briefing,
-        "圈出左右两边的对应关系"
+        "Translate each symbol into one plain sentence."
       );
     }
 
-    if (/公式|符号|单位|积分/.test(text)) {
+    if (/frequency domain|time domain|time|frequency/i.test(text)) {
       return response(
-        "先把公式当成一句话：它在问“每一种频率在这个信号里有多少”。你不用先背完整公式，可以先把每个符号翻译成一句中文。",
+        "The time domain shows how a signal changes over time. The frequency domain shows which repeating frequencies make up that same signal. It is one signal viewed in two useful ways.",
         briefing,
-        "把一个符号翻译成一句话"
-      );
-    }
-
-    if (/频域|时域|时间|频率/.test(text)) {
-      return response(
-        "频域不是把时间变没了，而是换一个角度看同一个信号。时域看“什么时候怎么变化”，频域看“里面有哪些频率成分”。",
-        briefing,
-        "用自己的话写出时域和频域的区别"
+        "Write one sentence comparing time domain and frequency domain."
       );
     }
 
     return response(
-      `我会把你的问题先连接到老师发布的主题「${briefing.topic}」。先找关键词，再用一个小例子验证。你现在可以先写出最不确定的一句话，我再帮你拆小。`,
+      `Let's make this smaller. For ${briefing.topic}, write one sentence starting with: I understand..., I am unsure about..., I need an example of...`,
       briefing,
-      "写出最不确定的一句话"
+      "Write one sentence about the exact unclear point."
     );
   }
 
@@ -146,46 +143,44 @@
     const topic = briefingInput?.topic || DEFAULT_TOPIC;
     const stuckType = input?.stuckType || inferNeedFromText(text || profile.stuckType || "");
     const specific = text || sentenceForNeed(stuckType);
-    const teacherSummary = `我在「${topic}」里主要卡在「${stuckType}」：${specific}`;
+    const teachersummary = `In ${topic}, this pupil is stuck on ${stuckType}: ${specific}`;
     return {
       id: `stuck-draft-${slugFor(stuckType)}`,
       stuckType,
       studentText: specific,
-      studentFacing: `我帮你整理成了一个更清楚的卡点：${teacherSummary}`,
-      teacherSummary,
+      studentFacing: `Stuck signal draft: ${teachersummary}`,
+      teachersummary,
       nextStep: nextStepForNeed(stuckType),
-      teacherVisiblePreview: teacherSummary,
+      teacherVisiblePreview: teachersummary,
       consentRequired: true,
       source: "student_agent"
     };
   }
 
   function response(answer, briefing, nextStep) {
-    const shareDraft = draftStuckSignal({ text: answer, stuckType: briefing.profile?.stuckType }, briefing);
+    const sharedraft = draftStuckSignal({ text: answer, stuckType: briefing.profile?.stuckType }, briefing);
     return {
       answer,
-      nextStep: nextStep || briefing.nextPlan?.[0]?.action || "先做一个小步骤",
-      shareDraft,
+      nextStep: nextStep || briefing.nextPlan?.[0]?.action || "Take one small learning step.",
+      sharedraft,
       usedSources: briefing.sourceSignals || [],
-      privacyNote: "这次回答默认只给你自己看；只有你点击分享，卡点摘要才会发给老师。"
+      privacyNote: "This response is private to you by default. Only when you tap Share will a short stuck-signal summary go to the teacher."
     };
   }
 
   function buildProfile(context) {
     const supportText = `${context.student?.status || ""} ${context.student?.level || ""} ${context.currentNeed || ""}`;
-    const confidence = /已提交|submitted|宸叉彁浜/i.test(context.assignmentStatus)
-      ? "已有提交，适合等待老师反馈并继续追问"
-      : "还在整理，适合先完成一个低压力草稿";
+    const hasSubmitted = /submitted|turned in|complete/i.test(context.assignmentStatus);
     return {
       alias: context.alias,
       topic: context.topic,
-      level: /Level 1|需要支持|闇/i.test(supportText) ? "需要低门槛支持" : "正在建立理解",
-      stuckType: context.currentNeed || "待确认卡点",
-      assignmentStatus: context.assignmentStatus,
-      confidence,
+      level: /Level 1|needs support|stuck/i.test(supportText) ? "needs accessible support" : "building understanding",
+      stuckType: context.currentNeed || "unconfirmed stuck point",
+      assignmentstatus: context.assignmentStatus,
+      confidence: hasSubmitted ? "assignment submitted; ready for feedback" : "draft not finished; start with a low-pressure draft",
       chatCount: context.questions.length + context.messages.filter((item) => item.senderRole === "student").length,
-      teacherMessageCount: context.messages.filter((item) => item.senderRole === "teacher").length,
-      checkInState: context.checkIns[0]?.stateLabel || "未记录"
+      teachermessageCount: context.messages.filter((item) => item.senderRole === "teacher").length,
+      checkInState: context.checkIns[0]?.stateLabel || "no check-in yet"
     };
   }
 
@@ -195,40 +190,44 @@
       action: actionForNeed(profile.stuckType),
       detail: nextStepForNeed(profile.stuckType)
     });
-    if (!/已提交|submitted|宸叉彁浜/i.test(profile.assignmentStatus)) {
+
+    if (!/submitted|turned in|complete/i.test(profile.assignmentstatus)) {
       plan.push({
-        action: "补完作业草稿",
-        detail: "先写三句话，不追求一次写完整：我知道什么、我不确定什么、我需要哪个例子。"
+        action: "Finish the assignment draft",
+        detail: "Write three sentences first: what I know, what I am unsure about, and which example I need."
       });
     } else {
       plan.push({
-        action: "等待老师反馈并追问",
-        detail: "如果老师回复了，先按老师给的一个小步骤做，不要同时处理太多问题。"
+        action: "Use teacher feedback",
+        detail: "If the teacher has replied, follow the first small step before asking a new question."
       });
     }
+
     plan.push({
-      action: latestTeacherMessage ? "阅读老师回复" : "需要时分享卡点",
+      action: latestTeacherMessage ? "Reply to the teacher" : "Share the stuck point if needed",
       detail: latestTeacherMessage
-        ? `老师最近说：${clean(latestTeacherMessage.text, 120)}`
-        : "只有你确认分享后，老师才会看到整理后的卡点摘要。"
+        ? `Teacher reply: ${clean(latestTeacherMessage.text, 120)}`
+        : "Only after you confirm sharing will the teacher see a short stuck-point summary."
     });
+
     if (latestCheckIn?.nextLearningStep) {
       plan.push({
-        action: "使用 Check-in 下一步",
+        action: "Use your check-in next step",
         detail: latestCheckIn.nextLearningStep
       });
     }
+
     return plan.slice(0, 3);
   }
 
   function buildMemory(profile, latestStuck, latestCheckIn, latestTeacherMessage) {
     return [
-      `当前主题：${profile.topic}`,
-      `当前卡点：${profile.stuckType}`,
-      `作业状态：${profile.assignmentStatus}`,
-      latestStuck ? `最近卡点说明：${clean(latestStuck.note || latestStuck.stuckType, 120)}` : "还没有新的卡点说明。",
-      latestCheckIn ? `最近学习状态：${latestCheckIn.stateLabel || latestCheckIn.state}` : "还没有学习状态记录。",
-      latestTeacherMessage ? `老师最近回复：${clean(latestTeacherMessage.text, 120)}` : "还没有新的老师回复。"
+      `current topic: ${profile.topic}`,
+      `current stuck point: ${profile.stuckType}`,
+      `assignment status: ${profile.assignmentstatus}`,
+      latestStuck ? `latest stuck note: ${clean(latestStuck.note || latestStuck.stuckType, 120)}` : "no stuck note yet",
+      latestCheckIn ? `latest learning check-in: ${latestCheckIn.stateLabel || latestCheckIn.state}` : "no learning check-in yet",
+      latestTeacherMessage ? `latest teacher reply: ${clean(latestTeacherMessage.text, 120)}` : "no teacher reply yet"
     ];
   }
 
@@ -240,35 +239,35 @@
 
   function inferNeedFromText(text) {
     const value = String(text || "");
-    if (/图|图示|左|右|波形|频率图|graph|visual/.test(value)) return "图示没懂";
-    if (/公式|符号|单位|积分|symbol|formula/.test(value)) return "公式没懂";
-    if (/定义|概念|是什么|到底/.test(value)) return "定义没懂";
-    if (/例题|迁移|应用|换一个|自己做/.test(value)) return "例题迁移";
-    return "图示没懂";
+    if (/diagram|left|right|waveform|frequency graph|graph|visual/i.test(value)) return "diagram mapping";
+    if (/formula|symbol|equation/i.test(value)) return "formula meaning";
+    if (/definition|concept|what is|meaning/i.test(value)) return "concept definition";
+    if (/example|transfer|apply/i.test(value)) return "example transfer";
+    return "one specific question";
   }
 
   function actionForNeed(need) {
-    if (/图/.test(need)) return "先看图示对应";
-    if (/公式|符号/.test(need)) return "先翻译公式符号";
-    if (/定义|概念/.test(need)) return "先建立生活例子";
-    if (/例题|迁移/.test(need)) return "先做同构小题";
-    return "先拆成一个小问题";
+    if (/diagram/i.test(need)) return "Break it into one small diagram question";
+    if (/formula|symbol/i.test(need)) return "Translate one formula symbol";
+    if (/definition|concept/i.test(need)) return "Write one plain definition";
+    if (/example|transfer/i.test(need)) return "Compare one worked example";
+    return "Break it into one small question";
   }
 
   function nextStepForNeed(need) {
-    if (/图/.test(need)) return "只圈出左边复杂波形和右边简单频率，不急着解释完整公式。";
-    if (/公式|符号/.test(need)) return "把公式里的一个符号翻译成一句中文，再问下一个符号。";
-    if (/定义|概念/.test(need)) return "用声音或音乐的例子解释一次，再回到物理概念。";
-    if (/例题|迁移/.test(need)) return "先做一个和例题结构一样、数字或场景稍微变化的小题。";
-    return "先写一句最不确定的地方，再让学习伙伴帮你拆小。";
+    if (/diagram/i.test(need)) return "Write the one part of the diagram that does not line up yet.";
+    if (/formula|symbol/i.test(need)) return "Choose one symbol and write what it means in the situation.";
+    if (/definition|concept/i.test(need)) return "Write the concept in plain language before using technical words.";
+    if (/example|transfer/i.test(need)) return "Compare the worked example with the new question and mark the first difference.";
+    return "Write the sentence you are least sure about, then ask the learning partner to make it smaller.";
   }
 
   function sentenceForNeed(need) {
-    if (/图/.test(need)) return "我看不出左边波形和右边频率图怎么对应。";
-    if (/公式|符号/.test(need)) return "我记得公式，但不知道每个符号在说什么。";
-    if (/定义|概念/.test(need)) return "我不知道这个概念到底是什么意思。";
-    if (/例题|迁移/.test(need)) return "我能跟例题，但换一个题就不知道第一步。";
-    return "我还不能把问题说清楚，需要先整理卡点。";
+    if (/diagram/i.test(need)) return "I cannot see how the two parts of the diagram match.";
+    if (/formula|symbol/i.test(need)) return "I do not know what one symbol in the formula means.";
+    if (/definition|concept/i.test(need)) return "I need the concept explained in simpler words.";
+    if (/example|transfer/i.test(need)) return "I can follow the example but cannot transfer it yet.";
+    return "I cannot turn this into a specific question yet.";
   }
 
   function slugFor(value) {
@@ -285,13 +284,11 @@
 
   const api = {
     buildStudentBriefing,
-    answerStudentQuestion,
+    answerStudentquestion,
     draftStuckSignal
   };
 
   global.TeachFlowStudentAgentOrchestrator = api;
 
-  if (typeof module !== "undefined") {
-    module.exports = api;
-  }
+  if (typeof module !== "undefined") module.exports = api;
 })(typeof window !== "undefined" ? window : globalThis);

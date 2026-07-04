@@ -1,0 +1,9 @@
+student_id,answer,confidence
+S001,"Fourier Transform is just a formula for waves",2
+S002,"It turns time into frequency but I don't know why",2
+S003,"It decomposes sound into simple waves like notes",4
+S004,"I don't see why this matters for physics",1
+S005,"It changes a signal into another signal",2
+S006,"It is like splitting music into different frequencies",4
+S007,"I remember the equation but I don't understand what it means",2
+S008,"Frequency domain shows what frequencies are inside the signal",5

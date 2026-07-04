@@ -1,4 +1,4 @@
-# TeachFlow Formal Privacy And Security Review
+# TeachFlow Formal Privacy And Security review
 
 Date: 2026-07-02
 
@@ -24,11 +24,11 @@ This is an engineering privacy/security review, not legal advice. Before using T
 
 ## Data Inventory
 
-Currently collected in the MVP:
+currently collected in the MVP:
 
 - Demo account role and class boundary.
 - Anonymous student aliases such as `S002`.
-- Class topic, learning state, assignment status, student questions, stuck-signal notes, and audit events.
+- class topic, learning state, assignment status, student questions, stuck-signal notes, and audit events.
 - Student Check-in records: selected learning state, optional short note, private reflection, next learning step, optional teacher-visible learning summary, temporary learning support signal, and safeguarding flag.
 
 Intentionally not collected:
@@ -36,13 +36,13 @@ Intentionally not collected:
 - Real student names, emails, phone numbers, addresses, school IDs, health data, disciplinary data, family details, production credentials, or API keys.
 - Mental-health diagnoses, counselling records, safeguarding case notes, medical labels, or full private student conversations for ordinary teacher access.
 
-Current storage:
+current storage:
 
 - Server-side local JSON workspace file: `data/workspace-state.json`.
 - Browser local cache key: `teachflow.workspace.v1`.
 - In-memory local demo sessions.
 
-Current external sharing:
+current external sharing:
 
 - None in the MVP. There is no real cloud AI provider call in the active app.
 
@@ -51,25 +51,25 @@ Current external sharing:
 - Browser input is untrusted, including student questions and stuck-signal notes.
 - The server session cookie is the source of role/class/student context.
 - Query/body context must not override server-side session context.
-- Teacher-visible pages must escape student-supplied text.
-- School-admin views must remain aggregate-only unless a future decision explicitly changes that.
+- teacher-visible pages must escape student-supplied text.
+- school-admin views must remain aggregate-only unless a future decision explicitly changes that.
 
-## Controls Already In Place
+## Controls already In Place
 
 - Alias-only student model for the demo.
 - HttpOnly `SameSite=Lax` local session cookie.
 - Workspace API requires an authenticated session.
 - Server derives role, class, and student alias from the session.
 - Student mutation is scoped to the student's own alias.
-- Teacher actions are class-scoped.
-- School-admin workspace view hides individual students and student-level signals.
+- teacher actions are class-scoped.
+- school-admin workspace view hides individual students and student-level signals.
 - Student Check-in teacher responses omit raw private notes and private reflections unless the student chose a teacher-visible learning summary; even then, the teacher gets a learning summary, not a full private conversation.
 - Authorization failures and major actions are appended to audit events.
 - Browser workflow test covers login, role gates, student assignment, stuck-signal sync, teacher analysis sync, audit visibility, and an XSS regression path.
 
 ## Findings
 
-| ID | Severity | Status | Finding | Resolution / Required Action |
+| ID | Severity | status | Finding | Resolution / Required Action |
 | --- | --- | --- | --- | --- |
 | SEC-001 | High | Fixed | API authorization previously checked class/alias context but did not enforce a strict action-by-role matrix for every workspace action. | Added role/action authorization in `workspace-store.js`; added API tests blocking student workspace reset/write and teacher student-question impersonation. |
 | SEC-002 | High | Fixed | Student stuck-signal notes were rendered into the teacher analysis panel and could become a student-to-teacher XSS vector. | Escaped workspace/student/signal fields in `teacher-prototype.js`; browser test now submits a malicious-looking note and verifies it does not execute. |
@@ -81,7 +81,7 @@ Current external sharing:
 | SEC-008 | Medium | Open | Real AI integration is not connected yet; once connected, student prompts/responses can create privacy, safety, and accuracy risk. | Require teacher-controlled scopes, prompt/data minimization, logging rules, provider review, and student-facing safety guardrails before real LLM calls. |
 | SEC-009 | Medium | Open | No rate limiting or free-text content length rules beyond the server body-size cap. | Add route-level size limits, request throttling, and validation for questions/stuck notes. |
 | SEC-010 | Medium | Open | Security headers and CSP are not configured. | Add a minimal CSP, `X-Content-Type-Options`, frame restrictions, and other static-server headers. |
-| SEC-011 | High | Open before real pilot | AI 学习关怀 / Student Check-in can be mistaken for mental-health support if wording, consent, and escalation rules are not school-approved. | Keep it framed as learning support only; add school-approved non-therapy notice, safeguarding lead role, escalation workflow, retention/deletion rules, and review before real student use. |
+| SEC-011 | High | Open before real pilot | AI learning / Student Check-in can be mistaken for mental-health support if wording, consent, and escalation rules are not school-approved. | Keep it framed as learning support only; add school-approved non-therapy notice, safeguarding lead role, escalation workflow, retention/deletion rules, and review before real student use. |
 
 ## Pilot Data Rules
 
@@ -117,4 +117,4 @@ Before TeachFlow handles real student personal data, complete at minimum:
 3. Add security headers and a basic CSP to `server.js`.
 4. Define local pilot retention and reset workflow.
 5. Create a short teacher-facing privacy checklist for demos.
-6. Draft Student Check-in consent, non-therapy, and safeguarding boundary copy for school review.
+6. draft Student Check-in consent, non-therapy, and safeguarding boundary copy for school review.

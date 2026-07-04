@@ -1,0 +1,1 @@
+No Chinese strings remain after the English demo localisation pass. Regenerate this file with scripts/extract-cjk-strings.mjs if needed.

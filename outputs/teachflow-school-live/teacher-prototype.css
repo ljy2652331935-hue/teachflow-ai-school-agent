@@ -1,50 +1,8 @@
 /* =========================================================================
    TeachFlow · Teacher end
-   Design protocol: Premium Utilitarian Minimalism (taste-skill / minimalist-ui)
-   - Warm monochrome canvas, editorial serif headings, mono meta
-   - Flat 1px bento, near-zero shadows, muted pastel accents only
-   - Black CTAs, small radii, macro whitespace, quiet motion
+   Skin: Ethereal AI Intelligence (reference teachflow-ui.zip)
+   Tokens: design-tokens.css · Components: ethereal-ui.css
    ========================================================================= */
-
-:root {
-  --page: #f7f6f3;        /* warm bone canvas */
-  --panel: #ffffff;
-  --surface: #fbfbfa;     /* card interior */
-  --surface-2: #f4f3f0;   /* recessed */
-  --line: #eaeaea;
-  --line-soft: rgba(0, 0, 0, 0.06);
-
-  --text: #2f3437;        /* charcoal, never pure black */
-  --text-strong: #191919;
-  --muted: #787774;
-
-  --cta: #111111;
-  --cta-hover: #333333;
-
-  /* Muted pastels — the only color in the system */
-  --red-bg: #fdebec;   --red-ink: #9f2f2d;
-  --blue-bg: #e1f3fe;  --blue-ink: #1f6c9f;
-  --green-bg: #edf3ec; --green-ink: #346538;
-  --yellow-bg: #fbf3db; --yellow-ink: #956400;
-
-  /* Legacy aliases kept so existing selectors stay meaningful */
-  --subtle: var(--surface-2);
-  --teal: var(--cta);
-  --teal-deep: var(--text);
-  --blue: var(--blue-ink);
-  --green: var(--green-ink);
-  --amber: var(--yellow-ink);
-  --coral: var(--red-ink);
-
-  --shadow: 0 1px 2px rgba(20, 33, 47, 0.03);
-  --shadow-hover: 0 2px 8px rgba(0, 0, 0, 0.04);
-  --radius: 10px;
-
-  --font-sans: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI",
-    "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", system-ui, sans-serif;
-  --font-display: "Newsreader", "Playfair Display", Georgia, "Songti SC", "Songti TC", serif;
-  --font-mono: "JetBrains Mono", "SF Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
-}
 
 * {
   box-sizing: border-box;
@@ -98,22 +56,23 @@ img {
 
 .teacher-shell {
   display: grid;
-  grid-template-columns: 288px minmax(0, 1fr);
-  min-height: 100vh;
+  grid-template-columns: 240px minmax(0, 1fr);
+  min-height: calc(100vh - 72px);
+  background: var(--page);
 }
 
 .teacher-sidebar {
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 16px;
   position: sticky;
-  top: 0;
+  top: 72px;
   align-self: start;
-  min-height: 100vh;
-  max-height: 100vh;
+  min-height: calc(100vh - 72px);
+  max-height: calc(100vh - 72px);
   overflow-y: auto;
-  padding: 26px 20px;
-  border-right: 1px solid var(--line);
+  padding: 20px 12px;
+  border-right: 1px solid var(--line-soft);
   background: var(--panel);
 }
 
@@ -121,20 +80,22 @@ img {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding-bottom: 6px;
+  padding: 8px 8px 16px;
+  border-bottom: 1px solid var(--line-soft);
+  margin-bottom: 4px;
 }
 
 .brand-badge {
   display: grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 8px;
-  background: var(--cta);
-  color: #fff;
-  font-family: var(--font-mono);
-  font-weight: 700;
-  letter-spacing: 0.02em;
+  width: 32px;
+  height: 32px;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  letter-spacing: normal;
 }
 
 .teacher-brand p,
@@ -156,70 +117,94 @@ img {
 }
 
 .teacher-brand h1 {
-  font-size: 18px;
+  font-size: 17px;
+  font-weight: 200;
+  letter-spacing: 0.12em;
   line-height: 1.2;
   color: var(--text-strong);
 }
 
 .channel-list {
   display: grid;
-  gap: 3px;
+  gap: 4px;
+  padding: 0 4px;
 }
 
 .channel-button {
+  position: relative;
   display: grid;
-  grid-template-columns: 34px 1fr;
+  grid-template-columns: 28px 1fr;
   gap: 12px;
   align-items: center;
   width: 100%;
-  min-height: 58px;
-  padding: 9px 10px;
-  border: 1px solid transparent;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 0;
   border-radius: 8px;
   background: transparent;
-  color: var(--text);
+  color: var(--muted);
   text-align: left;
   cursor: pointer;
-  transition: background 0.15s ease, border-color 0.15s ease;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 .channel-button:hover {
   background: var(--surface-2);
+  color: var(--text);
 }
 
 .channel-button.active {
-  border-color: var(--line);
-  background: var(--surface);
-  box-shadow: var(--shadow-hover);
+  background: var(--blue-bg);
+  color: var(--blue-ink);
+  box-shadow: none;
+}
+
+.channel-button.active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 3px;
+  height: 28px;
+  border-radius: 0 4px 4px 0;
+  background: var(--blue-ink);
+  transform: translateY(-50%);
 }
 
 .channel-icon {
   display: grid;
   place-items: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
-  background: var(--surface-2);
-  color: var(--muted);
-  font-size: 13px;
-  font-weight: 700;
+  width: 28px;
+  height: 28px;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.channel-icon svg {
+  width: 20px;
+  height: 20px;
 }
 
 .channel-button.active .channel-icon {
-  background: var(--cta);
-  color: #fff;
+  background: transparent;
+  color: var(--blue-ink);
 }
 
 .channel-button strong {
   display: block;
-  font-size: 14.5px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.channel-button.active strong {
   font-weight: 600;
 }
 
 .channel-button small {
-  display: block;
-  color: var(--muted);
-  font-size: 12px;
+  display: none;
 }
 
 .sidebar-card {
@@ -246,31 +231,95 @@ img {
   font-size: 13px;
 }
 
+.sidebar-boundary {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.sidebar-boundary summary {
+  color: var(--muted);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+
+.sidebar-boundary summary::-webkit-details-marker {
+  display: none;
+}
+
+.sidebar-boundary summary::after {
+  content: "+";
+  float: right;
+  color: var(--muted);
+}
+
+.sidebar-boundary[open] summary::after {
+  content: "−";
+}
+
+.sidebar-boundary p {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
 /* =========================================================================
    Main + topbar
    ========================================================================= */
 
 .teacher-main {
+  display: flex;
+  flex-direction: column;
   min-width: 0;
-  padding: 32px 36px 56px;
+  min-height: calc(100vh - 72px);
+  padding: 0;
+  background: var(--page);
 }
 
 .teacher-topbar {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
   gap: 18px;
-  margin-bottom: 32px;
+  margin-bottom: 0;
+  padding: 16px 32px;
+  border-bottom: 1px solid var(--line-soft);
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(8px);
+}
+
+.teacher-topbar-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.teacher-topbar-meta span:nth-child(even) {
+  opacity: 0.35;
 }
 
 .teacher-topbar h2 {
-  margin-top: 8px;
+  margin: 6px 0 0;
   font-family: var(--font-display);
-  font-weight: 500;
-  font-size: 34px;
-  line-height: 1.1;
+  font-weight: 300;
+  font-size: 24px;
+  line-height: 1.2;
   letter-spacing: -0.02em;
   color: var(--text-strong);
+}
+
+.teacher-topbar .mini-label {
+  margin: 0;
+  font-size: 11px;
+  letter-spacing: 0.08em;
 }
 
 .topbar-actions,
@@ -305,16 +354,26 @@ img {
   border-color: var(--cta);
   background: var(--cta);
   color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(37, 99, 235, 0.2);
 }
 
 .primary-button:hover {
   background: var(--cta-hover);
   border-color: var(--cta-hover);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
 }
 
 .secondary-button {
   background: var(--panel);
   color: var(--text);
+  border-color: var(--line);
+  border-radius: 8px;
+}
+
+.secondary-button:hover {
+  border-color: #cbd5e1;
+  background: var(--surface);
 }
 
 .plain-button:active,
@@ -332,8 +391,19 @@ img {
 }
 
 .channel-content {
+  flex: 1;
+  overflow-y: auto;
   display: grid;
   gap: 24px;
+  padding: 24px 32px 8px;
+}
+
+.teacher-topbar-orb {
+  flex-shrink: 0;
+}
+
+.teacher-command-bar {
+  padding: 16px 32px 20px;
 }
 
 .channel-content > * {
@@ -382,11 +452,11 @@ img {
 
 .panel {
   min-width: 0;
-  padding: 26px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
+  padding: 24px;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-lg);
   background: var(--panel);
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-card);
 }
 
 .panel-header {
@@ -431,13 +501,21 @@ img {
 .metric-card strong {
   display: block;
   margin: 10px 0 4px;
+  overflow: hidden;
   font-size: 32px;
+  font-weight: 200;
   line-height: 1;
   letter-spacing: -0.02em;
   color: var(--text-strong);
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .metric-card small {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
   color: var(--green-ink);
   font-size: 12px;
   font-weight: 600;
@@ -595,7 +673,7 @@ textarea:focus {
 .material-type-card {
   display: grid;
   gap: 8px;
-  min-height: 178px;
+  min-height: 150px;
   padding: 16px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -626,6 +704,11 @@ textarea:focus {
   background: var(--surface-2);
   color: var(--text);
   font-weight: 700;
+}
+
+.material-type-card > span svg {
+  width: 19px;
+  height: 19px;
 }
 
 .material-type-card p {
@@ -911,6 +994,10 @@ textarea:focus {
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 10px;
   margin-bottom: 14px;
+}
+
+.compact-invite {
+  margin: 14px 0 12px;
 }
 
 .class-settings-form {
@@ -1230,10 +1317,14 @@ textarea:focus {
 }
 
 .agent-insight-grid strong {
-  font-size: 20px;
+  display: block;
+  overflow: hidden;
+  font-size: 32px;
   font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: -0.01em;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .agent-source-strip {
@@ -1748,6 +1839,69 @@ textarea:focus {
   align-items: start;
 }
 
+.analysis-dashboard-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.analysis-dashboard-main,
+.analysis-command-rail,
+.analysis-secondary-grid,
+.workspace-sync-compact,
+.compact-record-list {
+  display: grid;
+  gap: 16px;
+}
+
+.analysis-command-rail {
+  position: sticky;
+  top: 24px;
+}
+
+.analysis-secondary-grid {
+  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+  align-items: start;
+}
+
+.analysis-loop-card .analysis-flow {
+  grid-template-columns: 1fr;
+}
+
+.analysis-loop-card .analysis-step {
+  min-height: auto;
+}
+
+.workspace-sync-compact {
+  align-content: start;
+}
+
+.compact-record-list article {
+  display: grid;
+  gap: 6px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.compact-record-list span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.compact-record-list strong {
+  color: var(--text-strong);
+  font-size: 15px;
+}
+
+.compact-record-list p {
+  color: var(--muted);
+  font-size: 13px;
+}
+
 .analysis-brief-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1778,11 +1932,6 @@ textarea:focus {
   color: var(--text-strong);
   font-size: 18px;
   font-weight: 650;
-}
-
-.analysis-brief-card p {
-  color: var(--muted);
-  font-size: 13px;
 }
 
 .analysis-brief-card em {
@@ -2378,129 +2527,8 @@ textarea:focus {
   font-size: 12px;
 }
 
-.teams-activity-dock.dock-scale-small {
-  width: min(260px, calc(100vw - 40px));
-  padding: 10px;
-}
-
-.teams-activity-dock.dock-scale-large {
-  width: min(460px, calc(100vw - 40px));
-  padding: 16px;
-}
-
 .teams-activity-dock.is-hidden-in-chat {
   display: none;
-}
-
-.teams-dock-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.teams-dock-actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 8px;
-}
-
-.teams-dock-scale-control {
-  display: none;
-  grid-template-columns: repeat(3, 28px);
-  gap: 3px;
-  padding: 3px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--surface);
-}
-
-.dock-scale-button {
-  display: grid;
-  min-width: 28px;
-  min-height: 26px;
-  place-items: center;
-  border: 0;
-  border-radius: 6px;
-  background: transparent;
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.dock-scale-button:hover,
-.dock-scale-button.active {
-  background: var(--panel);
-  color: var(--text-strong);
-  box-shadow: inset 0 0 0 1px var(--line);
-}
-
-.teams-dock-header strong {
-  color: var(--text-strong);
-  font-size: 15px;
-}
-
-.teams-dock-list {
-  max-height: 300px;
-  overflow: auto;
-}
-
-.dock-scale-small .teams-dock-list {
-  max-height: 180px;
-}
-
-.dock-scale-large .teams-dock-list {
-  max-height: 430px;
-}
-
-.teams-dock-list button,
-.teams-dock-list article {
-  display: grid;
-  gap: 4px;
-  width: 100%;
-  padding: 10px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--surface);
-  color: var(--text);
-  text-align: left;
-}
-
-.teams-dock-list button {
-  cursor: pointer;
-}
-
-.teams-dock-list button:hover {
-  background: #fff;
-}
-
-.teams-dock-list strong {
-  font-size: 13px;
-}
-
-.teams-dock-list span {
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.45;
-}
-
-.dock-scale-small .teams-dock-list button,
-.dock-scale-small .teams-dock-list article {
-  padding: 8px;
-}
-
-.dock-scale-small .teams-dock-list span {
-  display: -webkit-box;
-  overflow: hidden;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-}
-
-.dock-scale-large .teams-dock-list span {
-  font-size: 13px;
 }
 
 /* =========================================================================
@@ -2638,6 +2666,8 @@ td {
   .layout-grid,
   .creation-layout,
   .class-student-section,
+  .analysis-dashboard-grid,
+  .analysis-secondary-grid,
   .analysis-clean-grid,
   .outcome-summary-layout,
   .teaching-analysis-grid,
@@ -2663,6 +2693,10 @@ td {
   .misconception-grid,
   .intervention-lane-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .analysis-command-rail {
+    position: static;
   }
 }
 
@@ -2703,6 +2737,8 @@ td {
   .outcome-summary-metrics,
   .agent-question-form,
   .workspace-sync-grid,
+  .compact-record-list,
+  .invite-link-box,
   .analysis-brief-grid,
   .teams-chat-header,
   .teams-message-form,

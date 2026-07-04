@@ -1,18 +1,18 @@
 :root {
   color-scheme: light;
-  --ink: #152232;
-  --muted: #657381;
-  --line: #d9e4e6;
-  --paper: #ffffff;
-  --wash: #f4f7f7;
-  --green: #0b756e;
-  --green-soft: #e8f6f2;
-  --blue: #244b7a;
-  --blue-soft: #e9f0f8;
-  --amber: #936617;
-  --amber-soft: #fff5df;
-  --rose: #a33d4a;
-  --rose-soft: #fdecef;
+  --ink: var(--text-strong, #0f172a);
+  --muted: var(--muted, #64748b);
+  --line: var(--line, #e2e8f0);
+  --paper: var(--panel, #ffffff);
+  --wash: var(--page, #f8fafc);
+  --green: var(--cta, #2563eb);
+  --green-soft: var(--blue-bg, #eff6ff);
+  --blue: var(--blue-ink, #2563eb);
+  --blue-soft: var(--blue-bg, #eff6ff);
+  --amber: var(--yellow-ink, #f59e0b);
+  --amber-soft: var(--yellow-bg, #fffbeb);
+  --rose: var(--red-ink, #ef4444);
+  --rose-soft: var(--red-bg, #fef2f2);
 }
 
 * {
@@ -120,6 +120,16 @@ textarea {
   background: var(--blue-soft);
   color: var(--blue);
   font-weight: 900;
+}
+
+.admin-channel span svg {
+  width: 17px;
+  height: 17px;
+}
+
+.admin-brand-mark svg {
+  width: 24px;
+  height: 24px;
 }
 
 .admin-channel strong {

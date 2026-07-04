@@ -1,77 +1,43 @@
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://teachflow.local/schemas/student-portal-lite.schema.json",
-  "title": "TeachFlow Student Portal Lite",
-  "type": "object",
-  "required": ["assignments", "reflections", "micro_quiz_attempts"],
-  "properties": {
-    "assignments": {
-      "type": "array",
-      "items": { "$ref": "#/$defs/StudentMaterialAssignment" }
-    },
-    "reflections": {
-      "type": "array",
-      "items": { "$ref": "#/$defs/StudentReflection" }
-    },
-    "micro_quiz_attempts": {
-      "type": "array",
-      "items": { "$ref": "#/$defs/StudentMicroQuizAttempt" }
-    }
-  },
-  "$defs": {
-    "StudentAlias": {
-      "type": "string",
-      "pattern": "^S[0-9]{3}$"
-    },
-    "StudentMaterialAssignment": {
-      "type": "object",
-      "required": ["id", "intervention_id", "topic_id", "student_alias", "material_level", "assigned_at"],
-      "properties": {
-        "id": { "type": "string" },
-        "intervention_id": { "type": "string" },
-        "topic_id": { "type": "string" },
-        "student_alias": { "$ref": "#/$defs/StudentAlias" },
-        "material_level": {
-          "type": "string",
-          "enum": ["confused", "partially_understood", "ready_to_apply"]
-        },
-        "assigned_at": { "type": "string" },
-        "completed_at": { "type": ["string", "null"] }
-      }
-    },
-    "StudentReflection": {
-      "type": "object",
-      "required": ["id", "topic_id", "student_alias", "prompt", "response", "created_at"],
-      "properties": {
-        "id": { "type": "string" },
-        "topic_id": { "type": "string" },
-        "student_alias": { "$ref": "#/$defs/StudentAlias" },
-        "prompt": { "type": "string" },
-        "response": { "type": "string" },
-        "created_at": { "type": "string" }
-      }
-    },
-    "StudentMicroQuizAttempt": {
-      "type": "object",
-      "required": ["id", "intervention_id", "topic_id", "student_alias", "answers", "submitted_at"],
-      "properties": {
-        "id": { "type": "string" },
-        "intervention_id": { "type": "string" },
-        "topic_id": { "type": "string" },
-        "student_alias": { "$ref": "#/$defs/StudentAlias" },
-        "answers": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "required": ["question_id", "answer"],
-            "properties": {
-              "question_id": { "type": "string" },
-              "answer": { "type": "string" }
-            }
-          }
-        },
-        "submitted_at": { "type": "string" }
-      }
-    }
-  }
-}
+{"$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "https://teachflow.local/schemas/student-portal-lite.schema.json",
+ "title": "TeachFlow Student Portal Lite",
+ "type": "object",
+ "required": ["assignments", "reflections", "micro_quiz_attempts"],
+ "properties": {"assignments": {"type": "array",
+ "items": {"$ref": "#/$defs/Studentmaterialassignment"}},
+ "reflections": {"type": "array",
+ "items": {"$ref": "#/$defs/StudentReflection"}},
+ "micro_quiz_attempts": {"type": "array",
+ "items": {"$ref": "#/$defs/StudentMicroQuizAttempt"}}},
+ "$defs": {"StudentAlias": {"type": "string",
+ "pattern": "^S[0-9]{3}$"},
+ "Studentmaterialassignment": {"type": "object",
+ "required": ["id", "intervention_id", "topic_id", "student_alias", "material_level", "assigned_at"],
+ "properties": {"id": {"type": "string"},
+ "intervention_id": {"type": "string"},
+ "topic_id": {"type": "string"},
+ "student_alias": {"$ref": "#/$defs/StudentAlias"},
+ "material_level": {"type": "string",
+ "enum": ["confused", "partially_understood", "ready_to_apply"]},
+ "assigned_at": {"type": "string"},
+ "completed_at": {"type": ["string", "null"]}}},
+ "StudentReflection": {"type": "object",
+ "required": ["id", "topic_id", "student_alias", "prompt", "response", "created_at"],
+ "properties": {"id": {"type": "string"},
+ "topic_id": {"type": "string"},
+ "student_alias": {"$ref": "#/$defs/StudentAlias"},
+ "prompt": {"type": "string"},
+ "response": {"type": "string"},
+ "created_at": {"type": "string"}}},
+ "StudentMicroQuizAttempt": {"type": "object",
+ "required": ["id", "intervention_id", "topic_id", "student_alias", "answers", "submitted_at"],
+ "properties": {"id": {"type": "string"},
+ "intervention_id": {"type": "string"},
+ "topic_id": {"type": "string"},
+ "student_alias": {"$ref": "#/$defs/StudentAlias"},
+ "answers": {"type": "array",
+ "items": {"type": "object",
+ "required": ["question_id", "answer"],
+ "properties": {"question_id": {"type": "string"},
+ "answer": {"type": "string"}}}},
+ "submitted_at": {"type": "string"}}}}}

@@ -1,0 +1,326 @@
+/* Shared Ethereal UI components (orb, command bar, wave logo) */
+
+.tf-wave-logo {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+}
+
+.tf-wordmark {
+  font-size: 17px;
+  font-weight: 200;
+  letter-spacing: 0.15em;
+  color: var(--text-strong);
+}
+
+.ai-orb {
+  position: relative;
+  flex-shrink: 0;
+  border-radius: 999px;
+  animation: tf-orb-breathe 4s ease-in-out infinite;
+}
+
+.ai-orb-sm {
+  width: 32px;
+  height: 32px;
+}
+
+.ai-orb-md {
+  width: 64px;
+  height: 64px;
+}
+
+.ai-orb-lg {
+  width: 128px;
+  height: 128px;
+}
+
+.ai-orb::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  border-radius: inherit;
+  background: rgba(59, 130, 246, 0.2);
+  filter: blur(16px);
+}
+
+.ai-orb::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at 35% 35%, #93c5fd, #3b82f6 40%, #6366f1 70%, #8b5cf6 90%);
+  box-shadow: 0 0 40px rgba(59, 130, 246, 0.28), inset 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.ai-orb-highlight {
+  position: absolute;
+  inset: 15%;
+  border-radius: inherit;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.75), transparent 60%);
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+@keyframes tf-orb-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+
+.teacher-command-bar {
+  flex-shrink: 0;
+  margin-top: auto;
+  padding: 16px 0 0;
+  border-top: 1px solid var(--line-soft);
+  background: linear-gradient(to top, var(--panel) 80%, transparent);
+}
+
+.teacher-command-form {
+  position: relative;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.teacher-command-form input {
+  width: 100%;
+  min-height: 52px;
+  padding: 0 56px 0 20px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  color: var(--text-strong);
+  font-size: 14px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.teacher-command-form input:focus {
+  outline: none;
+  border-color: #93c5fd;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.teacher-command-form input::placeholder {
+  color: var(--muted);
+}
+
+.teacher-command-submit {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--cta-gradient);
+  color: #fff;
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition: box-shadow 0.15s ease, transform 0.05s ease;
+}
+
+.teacher-command-submit:hover {
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.35);
+}
+
+.teacher-command-submit:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.teacher-command-note {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+  text-align: center;
+}
+
+.overview-hero {
+  display: grid;
+  gap: 20px;
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+.overview-greeting {
+  margin: 0;
+  font-size: clamp(1.75rem, 3vw, 2.2rem);
+  font-weight: 200;
+  letter-spacing: -0.02em;
+  color: var(--text-strong);
+}
+
+.overview-meta {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: 0.04em;
+}
+
+.overview-orb-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 12px 0;
+}
+
+.overview-flank-metrics {
+  display: grid;
+  gap: 20px;
+}
+
+.overview-flank-metrics--left {
+  text-align: right;
+  margin-right: 24px;
+}
+
+.overview-flank-metrics--right {
+  text-align: left;
+  margin-left: 24px;
+}
+
+.overview-flank-metric strong {
+  display: block;
+  font-size: 28px;
+  font-weight: 200;
+  line-height: 1;
+}
+
+.overview-flank-metric span {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.35;
+  letter-spacing: 0.03em;
+}
+
+.overview-flank-metric.is-hot strong { color: var(--red-ink); }
+.overview-flank-metric.is-warn strong { color: var(--yellow-ink); }
+.overview-flank-metric.is-ok strong { color: var(--green-ink); }
+.overview-flank-metric.is-info strong { color: var(--blue-ink); }
+
+.overview-orb-connector {
+  width: 48px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(59, 130, 246, 0.45));
+  position: relative;
+}
+
+.overview-orb-connector--reverse {
+  background: linear-gradient(to left, transparent, rgba(59, 130, 246, 0.45));
+}
+
+.overview-orb-connector::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #60a5fa;
+  transform: translateY(-50%);
+}
+
+.overview-orb-connector::after { right: 0; }
+.overview-orb-connector--reverse::after { left: 0; right: auto; }
+
+@media (max-width: 860px) {
+  .overview-orb-row {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .overview-flank-metrics--left,
+  .overview-flank-metrics--right {
+    margin: 0;
+    text-align: center;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    display: grid;
+  }
+
+  .overview-orb-connector {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ai-orb {
+    animation: none;
+  }
+}
+
+/* Demo polish: keep long English labels inside their containers. */
+:where(.role-portal-bar, .teacher-shell, .student-shell, .admin-shell, .login-panel, .auth-gate-card) *,
+:where(.role-portal-bar, .teacher-shell, .student-shell, .admin-shell, .login-panel, .auth-gate-card) *::before,
+:where(.role-portal-bar, .teacher-shell, .student-shell, .admin-shell, .login-panel, .auth-gate-card) *::after {
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+:where(
+  .panel,
+  .metric-card,
+  .role-switch-link,
+  .channel-button,
+  .student-channel,
+  .task-item,
+  .record-item,
+  .agent-stat,
+  .status-pill,
+  .student-agent-source-chip,
+  .support-profile-item,
+  .material-type-card,
+  .student-published-material-card,
+  .student-teacher-action-card,
+  .teacher-agent-task-card,
+  .teacher-agent-insight,
+  .approval-draft-card,
+  .generated-material-card,
+  .login-account-card,
+  .register-card
+) {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+:where(
+  .panel p,
+  .panel span,
+  .panel small,
+  .panel strong,
+  .panel em,
+  .metric-card small,
+  .metric-card strong,
+  .record-item span,
+  .record-item strong,
+  .task-item span,
+  .task-item strong,
+  .channel-button span,
+  .student-channel span,
+  .role-switch-link span,
+  .role-switch-link small
+) {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+:where(.status-pill, .notice-badge, .student-agent-source-chip) {
+  white-space: normal;
+  line-height: 1.25;
+  text-align: center;
+}
+
+:where(button, .primary-button, .secondary-button, .ghost-button, .plain-button, .register-submit, .teacher-command-submit) {
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+:where(input, textarea, select) {
+  max-width: 100%;
+  min-width: 0;
+}

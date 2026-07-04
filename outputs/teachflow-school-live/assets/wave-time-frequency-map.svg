@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Time view and frequency view of one wave</title>
+  <desc id="desc">A classroom diagram showing a wave over time and the frequency bars that describe the same signal.</desc>
+  <rect width="960" height="540" rx="28" fill="#f8fafc"/>
+  <rect x="42" y="42" width="876" height="456" rx="24" fill="#ffffff" stroke="#dbe4f0" stroke-width="2"/>
+  <text x="80" y="92" fill="#0f172a" font-family="Inter, Arial, sans-serif" font-size="32" font-weight="700">One signal, two useful views</text>
+  <text x="80" y="128" fill="#64748b" font-family="Inter, Arial, sans-serif" font-size="18">Start by naming the view before using a formula.</text>
+
+  <rect x="80" y="166" width="360" height="258" rx="18" fill="#eef6ff" stroke="#bfdbfe"/>
+  <text x="112" y="210" fill="#1d4ed8" font-family="Inter, Arial, sans-serif" font-size="23" font-weight="700">Time view</text>
+  <text x="112" y="238" fill="#475569" font-family="Inter, Arial, sans-serif" font-size="16">What happens moment by moment?</text>
+  <line x1="116" y1="360" x2="406" y2="360" stroke="#64748b" stroke-width="2"/>
+  <line x1="116" y1="360" x2="116" y2="268" stroke="#64748b" stroke-width="2"/>
+  <text x="270" y="392" fill="#334155" font-family="Inter, Arial, sans-serif" font-size="16">time</text>
+  <text x="88" y="278" fill="#334155" font-family="Inter, Arial, sans-serif" font-size="15" transform="rotate(-90 88 278)">height</text>
+  <path d="M118 330 C148 254, 183 254, 214 330 S281 406, 312 330 S378 254, 406 330" fill="none" stroke="#2563eb" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="214" cy="330" r="8" fill="#f59e0b"/>
+  <circle cx="312" cy="330" r="8" fill="#f59e0b"/>
+  <path d="M216 330 L310 330" stroke="#f59e0b" stroke-width="3" stroke-dasharray="8 8"/>
+  <text x="220" y="318" fill="#92400e" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="700">one repeat</text>
+
+  <rect x="520" y="166" width="360" height="258" rx="18" fill="#f0fdf4" stroke="#bbf7d0"/>
+  <text x="552" y="210" fill="#047857" font-family="Inter, Arial, sans-serif" font-size="23" font-weight="700">Frequency view</text>
+  <text x="552" y="238" fill="#475569" font-family="Inter, Arial, sans-serif" font-size="16">Which repeating parts are inside?</text>
+  <line x1="560" y1="360" x2="842" y2="360" stroke="#64748b" stroke-width="2"/>
+  <line x1="560" y1="360" x2="560" y2="268" stroke="#64748b" stroke-width="2"/>
+  <text x="676" y="392" fill="#334155" font-family="Inter, Arial, sans-serif" font-size="16">frequency</text>
+  <rect x="596" y="306" width="42" height="54" rx="8" fill="#22c55e"/>
+  <rect x="668" y="280" width="42" height="80" rx="8" fill="#2563eb"/>
+  <rect x="740" y="322" width="42" height="38" rx="8" fill="#f59e0b"/>
+  <text x="600" y="382" fill="#334155" font-family="Inter, Arial, sans-serif" font-size="14">low</text>
+  <text x="668" y="382" fill="#334155" font-family="Inter, Arial, sans-serif" font-size="14">main</text>
+  <text x="734" y="382" fill="#334155" font-family="Inter, Arial, sans-serif" font-size="14">high</text>
+
+  <path d="M446 292 C468 292, 480 292, 502 292" fill="none" stroke="#94a3b8" stroke-width="3" stroke-dasharray="8 8"/>
+  <path d="M491 280 L508 292 L491 304" fill="none" stroke="#94a3b8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="426" y="270" fill="#475569" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="700">same signal</text>
+
+  <rect x="80" y="444" width="800" height="34" rx="17" fill="#eff6ff"/>
+  <text x="108" y="466" fill="#1e3a8a" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700">Try it:</text>
+  <text x="164" y="466" fill="#334155" font-family="Inter, Arial, sans-serif" font-size="16">Write one sentence that starts: The time view shows..., while the frequency view shows...</text>
+</svg>

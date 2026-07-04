@@ -11,6 +11,7 @@ It focuses on anonymised student misconception diagnosis, differentiated interve
 ## Before Complex Work
 
 - Read `docs/brain/INDEX.md` and `docs/brain/CURRENT_STATE.md` first.
+- **Before touching any UI file (`*.html`, `*.css`, or render functions in front-end `*.js`), you MUST read `docs/brain/DESIGN_SYSTEM.md` and follow its hard rules.** UI changes that violate it require a decision note first.
 - For school-trial implementation work, also read `outputs/teachflow-school-live/README.md`, `outputs/teachflow-school-live/package.json`, and the relevant engine/prototype files.
 - For legacy demo work, use `outputs/teachflow-v0.1/`.
 - If the knowledge base is stale, update the affected `docs/brain` files as part of the task.

@@ -6,6 +6,8 @@
 
 # Local runtime state
 *.log
+*.err
+*.out
 data/workspace-state.json
 data/workspace-state.*.json
 outputs/**/data/workspace-state.json

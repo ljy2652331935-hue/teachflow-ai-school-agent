@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Wave formula symbols map</title>
+  <desc id="desc">A classroom visual that maps frequency, wavelength and speed to plain-language meanings.</desc>
+  <rect width="960" height="540" rx="28" fill="#f8fafc"/>
+  <rect x="42" y="42" width="876" height="456" rx="24" fill="#ffffff" stroke="#dbe4f0" stroke-width="2"/>
+  <text x="78" y="94" fill="#0f172a" font-family="Inter, Arial, sans-serif" font-size="32" font-weight="700">Name the symbols before calculating</text>
+  <text x="78" y="130" fill="#64748b" font-family="Inter, Arial, sans-serif" font-size="18">If the equation feels abstract, translate each symbol into words first.</text>
+
+  <rect x="310" y="170" width="340" height="104" rx="22" fill="#eff6ff" stroke="#bfdbfe"/>
+  <text x="376" y="234" fill="#1d4ed8" font-family="Inter, Arial, sans-serif" font-size="46" font-weight="800">v = f x lambda</text>
+
+  <g font-family="Inter, Arial, sans-serif">
+    <rect x="78" y="326" width="232" height="122" rx="18" fill="#f0fdf4" stroke="#bbf7d0"/>
+    <text x="106" y="366" fill="#047857" font-size="30" font-weight="800">v</text>
+    <text x="142" y="364" fill="#0f172a" font-size="19" font-weight="700">wave speed</text>
+    <text x="106" y="398" fill="#475569" font-size="15">How fast the wave travels</text>
+    <text x="106" y="426" fill="#047857" font-size="15" font-weight="700">unit: metres per second</text>
+
+    <rect x="364" y="326" width="232" height="122" rx="18" fill="#fff7ed" stroke="#fed7aa"/>
+    <text x="392" y="366" fill="#c2410c" font-size="30" font-weight="800">f</text>
+    <text x="424" y="364" fill="#0f172a" font-size="19" font-weight="700">frequency</text>
+    <text x="392" y="398" fill="#475569" font-size="15">How often the wave repeats</text>
+    <text x="392" y="426" fill="#c2410c" font-size="15" font-weight="700">unit: hertz</text>
+
+    <rect x="650" y="326" width="232" height="122" rx="18" fill="#f5f3ff" stroke="#ddd6fe"/>
+    <text x="678" y="366" fill="#6d28d9" font-size="30" font-weight="800">lambda</text>
+    <text x="678" y="398" fill="#0f172a" font-size="19" font-weight="700">wavelength</text>
+    <text x="678" y="426" fill="#475569" font-size="15">Distance between repeats</text>
+  </g>
+
+  <path d="M386 274 C330 304, 260 312, 194 326" fill="none" stroke="#22c55e" stroke-width="3" stroke-dasharray="8 8"/>
+  <path d="M480 274 C480 296, 480 306, 480 326" fill="none" stroke="#f97316" stroke-width="3" stroke-dasharray="8 8"/>
+  <path d="M580 274 C642 304, 706 312, 766 326" fill="none" stroke="#8b5cf6" stroke-width="3" stroke-dasharray="8 8"/>
+
+  <rect x="78" y="466" width="804" height="34" rx="17" fill="#f1f5f9"/>
+  <text x="106" y="488" fill="#334155" font-family="Inter, Arial, sans-serif" font-size="16">Mini-task: Pick one symbol and write, "This symbol means..." before solving.</text>
+</svg>

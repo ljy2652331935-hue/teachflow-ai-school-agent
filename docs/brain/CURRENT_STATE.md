@@ -7,6 +7,8 @@ Last updated: 2026-07-03
 - School-trial app path: `outputs/teachflow-school-live`
 - School-trial package name: `teachflow-school-live`
 - Usual school-live URL: `http://127.0.0.1:5175/login.html`
+- Public Render demo URL: `https://qe-learning-demo.onrender.com/login.html`
+- Public judge classroom join URL: `https://qe-learning-demo.onrender.com/login.html?join=join-00c74581cd17b2cef3429fc9`
 - Legacy demo app path: `outputs/teachflow-v0.1`
 - Legacy demo package/version: `teachflow-v0.3`
 - Legacy demo URL: `http://127.0.0.1:5174/`
@@ -166,6 +168,7 @@ node server.js --port=5175
 - Folder naming is confusing: active folder is `teachflow-v0.1`, package is `v0.3`.
 - Git command was not available in the current shell during knowledge-base setup, so recent commit history was not inspected. `.git` exists, but `git` was not callable.
 - Temporary SSH tunnel demos can be unreliable; use the local service for development and Render or another Node host for stable public demos.
+- Render free instances can spin down when inactive, so the first public request may take 50 seconds or more.
 
 ## Next Recommended Steps
 

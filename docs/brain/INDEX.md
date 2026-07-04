@@ -5,6 +5,7 @@ This is the entry point for Codex and Obsidian notes about TeachFlow.
 ## What To Read First
 
 - New complex task: read this file, then `CURRENT_STATE.md`.
+- Any UI change (HTML/CSS/front-end render code): read `DESIGN_SYSTEM.md` first. This is mandatory.
 - Product/background question: read `PROJECT_CONTEXT.md`.
 - Architecture or data-flow question: read `ARCHITECTURE.md`.
 - Overall AI school agent architecture question: read `AI_SCHOOL_AGENT_ARCHITECTURE.md`.

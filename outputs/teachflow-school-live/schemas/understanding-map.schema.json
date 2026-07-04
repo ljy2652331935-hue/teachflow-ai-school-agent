@@ -1,60 +1,34 @@
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://teachflow.local/schemas/understanding-map.schema.json",
-  "title": "TeachFlow Student Understanding Map Schema",
-  "type": "object",
-  "required": ["understanding_map_nodes", "stuck_signals"],
-  "properties": {
-    "understanding_map_nodes": {
-      "type": "array",
-      "items": { "$ref": "#/$defs/UnderstandingMapNode" }
-    },
-    "stuck_signals": {
-      "type": "array",
-      "items": { "$ref": "#/$defs/StudentStuckSignal" }
-    }
-  },
-  "$defs": {
-    "StudentStuckSignal": {
-      "type": "object",
-      "required": ["id", "topic_id", "student_alias", "stuck_type", "created_at"],
-      "properties": {
-        "id": { "type": "string" },
-        "topic_id": { "type": "string" },
-        "student_alias": { "type": "string", "pattern": "^S\\d{3}$" },
-        "stuck_type": {
-          "type": "string",
-          "enum": ["definition", "diagram", "formula_meaning", "example_transfer", "relevance", "application"]
-        },
-        "free_text": { "type": "string" },
-        "created_at": { "type": "string" }
-      },
-      "additionalProperties": false
-    },
-    "UnderstandingMapNode": {
-      "type": "object",
-      "required": ["id", "topic_id", "student_alias", "concept", "status", "evidence", "recommended_action", "updated_at"],
-      "properties": {
-        "id": { "type": "string" },
-        "topic_id": { "type": "string" },
-        "student_alias": { "type": "string", "pattern": "^S\\d{3}$" },
-        "concept": { "type": "string" },
-        "status": {
-          "type": "string",
-          "enum": ["understood", "needs_support", "not_yet_assessed"]
-        },
-        "evidence": {
-          "type": "array",
-          "items": { "type": "string" }
-        },
-        "recommended_action": { "type": "string" },
-        "preferred_explanation_style": {
-          "type": "string",
-          "enum": ["visual", "analogy", "formula", "example", "application"]
-        },
-        "updated_at": { "type": "string" }
-      },
-      "additionalProperties": false
-    }
-  }
-}
+{"$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "https://teachflow.local/schemas/understanding-map.schema.json",
+ "title": "TeachFlow Student Understanding Map Schema",
+ "type": "object",
+ "required": ["understanding_map_nodes", "stuck_signals"],
+ "properties": {"understanding_map_nodes": {"type": "array",
+ "items": {"$ref": "#/$defs/UnderstandingMapNode"}},
+ "stuck_signals": {"type": "array",
+ "items": {"$ref": "#/$defs/StudentStuckSignal"}}},
+ "$defs": {"StudentStuckSignal": {"type": "object",
+ "required": ["id", "topic_id", "student_alias", "stuck_type", "created_at"],
+ "properties": {"id": {"type": "string"},
+ "topic_id": {"type": "string"},
+ "student_alias": {"type": "string", "pattern": "^S\\d{3}$"},
+ "stuck_type": {"type": "string",
+ "enum": ["definition", "diagram", "formula_meaning", "example_transfer", "relevance", "application"]},
+ "free_text": {"type": "string"},
+ "created_at": {"type": "string"}},
+ "additionalProperties": false},
+ "UnderstandingMapNode": {"type": "object",
+ "required": ["id", "topic_id", "student_alias", "concept", "status", "evidence", "recommended_action", "updated_at"],
+ "properties": {"id": {"type": "string"},
+ "topic_id": {"type": "string"},
+ "student_alias": {"type": "string", "pattern": "^S\\d{3}$"},
+ "concept": {"type": "string"},
+ "status": {"type": "string",
+ "enum": ["understood", "needs_support", "not_yet_assessed"]},
+ "evidence": {"type": "array",
+ "items": {"type": "string"}},
+ "recommended_action": {"type": "string"},
+ "preferred_explanation_style": {"type": "string",
+ "enum": ["visual", "analogy", "formula", "example", "application"]},
+ "updated_at": {"type": "string"}},
+ "additionalProperties": false}}}

@@ -1,4 +1,4 @@
-# TeachFlow v0.3 Pilot Notes
+# TeachFlow v0.3 Pilot notes
 
 ## Product Definition
 
@@ -31,11 +31,11 @@ It turns anonymised student answers into:
 - student stuck signals
 - student understanding map nodes
 - class understanding map summary
-- School Agent Console readiness and morning brief
+- school Agent Console readiness and morning brief
 
 It is not a student chatbot, automatic grader, or school admin dashboard.
 
-## First School Trial Goal
+## First school Trial Goal
 
 Let one teacher paste a real set of anonymised student responses and quickly answer:
 
@@ -45,7 +45,7 @@ Then let the teacher inspect the generated intervention and answer:
 
 > Would this help me adjust tomorrow's lesson for different student groups?
 
-Finally, let the teacher use the Review & Approval Studio and answer:
+Finally, let the teacher use the review & Approval Studio and answer:
 
 > Do I feel in control of what the AI generated before it becomes teaching material?
 
@@ -61,11 +61,11 @@ Then let the student alias open My Understanding Map and answer:
 
 > Does this help me see what I understand, what I still need help with, and how to ask for a different explanation?
 
-Finally, let the teacher open School Agent Console and answer:
+Finally, let the teacher open school Agent Console and answer:
 
 > Does the system clearly recommend the next safest, most useful step for a school pilot?
 
-## Teacher Interview Questions
+## teacher Interview questions
 
 1. How do you currently know what students did not understand?
 2. How long does it take to review short student answers after a lesson?
@@ -85,17 +85,17 @@ Finally, let the teacher open School Agent Console and answer:
 16. Would the reflection and micro quiz submissions provide useful follow-up evidence?
 17. Does the Understanding Map feel supportive rather than judgmental?
 18. Are "I am stuck because..." options understandable to students?
-19. Would the School Agent Console help a teacher know what to do next?
+19. Would the school Agent Console help a teacher know what to do next?
 20. Are the agent guardrails strong enough for a pilot conversation with school staff?
 
 ## Next Build Step
 
-Only after this teacher-controlled workflow, Student Portal Lite, Understanding Map, and School Agent Console feel useful with one real class, improve persistence and follow-up evidence:
+Only after this teacher-controlled workflow, Student Portal Lite, Understanding Map, and school Agent Console feel useful with one real class, improve persistence and follow-up evidence:
 
 - save version history across sessions
 - compare versions side by side
 - save student memory across sessions
 - compare pre-intervention and post-micro-quiz memory changes
 - build learning-gain report from before/after understanding signals
-- make School Agent Console exportable as a pilot report
+- make school Agent Console exportable as a pilot report
 - prepare school-safe data retention settings

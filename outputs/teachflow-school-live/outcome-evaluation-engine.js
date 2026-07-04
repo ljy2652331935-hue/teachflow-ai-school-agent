@@ -1,15 +1,15 @@
 (function (global) {
   const ACTION_LABELS = {
-    send_message: "支持消息",
-    assign_material: "学习材料",
-    schedule_followup: "短跟进"
+    send_message: "support message",
+    assign_material: "assigned material",
+    schedule_followup: "scheduled follow-up"
   };
 
   const STATUS_LABELS = {
-    improved: "已改善",
-    needs_followup: "仍需跟进",
-    monitoring: "继续观察",
-    no_later_signal: "等待后续信号"
+    improved: "Improved",
+    needs_followup: "Needs follow-up",
+    monitoring: "Monitor",
+    no_later_signal: "Awaiting signal"
   };
 
   function buildOutcomeEvaluation(input, options) {
@@ -18,30 +18,26 @@
     const students = Array.isArray(state.students) ? state.students : [];
     const aliases = new Set(students.map((student) => student.id));
     const actions = sortRecent(Array.isArray(state.teacherAgentActions) ? state.teacherAgentActions : [])
-      .filter((action) => {
-        return action?.studentAlias &&
-          aliases.has(action.studentAlias) &&
-          ["send_message", "assign_material", "schedule_followup"].includes(action.type);
-      });
+      .filter((action) => action?.studentAlias && aliases.has(action.studentAlias) && ["send_message", "assign_material", "schedule_followup"].includes(action.type));
     const evaluations = actions.map((action) => evaluateAction(action, state)).filter(Boolean);
     const metrics = buildMetrics(evaluations);
 
     return {
       engineId: "outcome-evaluation-engine",
       generatedAt: new Date().toISOString(),
-      classId: context.classId || state.activeClassId || null,
+      classId: context.classId || state.activeclassId || null,
       summary: buildSummary(metrics),
       metrics,
       evaluations,
-      nextTeacherActions: buildNextTeacherActions(evaluations),
+      nextteacherActions: buildNextteacherActions(evaluations),
       sourceSignals: [
-        { type: "teacher_agent_actions", label: "老师已批准动作", count: actions.length },
-        { type: "student_followup_signals", label: "动作后学生信号", count: evaluations.reduce((sum, item) => sum + item.evidence.length, 0) }
+        { type: "teacher_agent_actions", label: "teacher-approved actions", count: actions.length },
+        { type: "student_followup_signals", label: "student follow-up signals", count: evaluations.reduce((sum, item) => sum + item.evidence.length, 0) }
       ],
       guardrails: [
-        "成效回流只比较学习信号，不做成绩定性或心理判断。",
-        "没有后续证据时显示等待信号，不推断老师动作无效。",
-        "所有结果使用学生别名，不暴露真实身份。"
+        "Outcome evaluation only compares learning signals; it is not a grade or clinical judgement.",
+        "Evidence is shown only when it follows a teacher-approved action.",
+        "Use pupil aliases only; do not expose real identities."
       ]
     };
   }
@@ -54,7 +50,7 @@
 
     followupItems(state.auditEvents, action)
       .filter((event) => event.action === "update_assignment" && matchesAlias(event, alias) && statusLooksSubmitted(event.details?.status))
-      .forEach((event) => positiveEvidence.push(evidence("assignment", "作业提交", event.details?.status || "学生已提交作业。", event.timestamp, event)));
+      .forEach((event) => positiveEvidence.push(evidence("assignment", "assignment submitted", event.details?.status || "Pupil submitted assignment.", event.timestamp, event)));
 
     followupItems(state.messages, action)
       .filter((message) => message.studentAlias === alias && message.senderRole === "student")
@@ -62,18 +58,18 @@
         const text = message.text || "";
         const responseType = message.responseType || "";
         if (responseType === "improved" || looksPositive(text)) {
-          positiveEvidence.push(evidence("student_message", "学生回复", text, message.createdAt, message));
+          positiveEvidence.push(evidence("student_message", "pupil reply", text, message.createdAt, message));
         } else if (responseType === "still_stuck" || looksConcern(text)) {
-          concernEvidence.push(evidence("student_message", "学生回复", text, message.createdAt, message));
+          concernEvidence.push(evidence("student_message", "pupil reply", text, message.createdAt, message));
         } else {
-          neutralEvidence.push(evidence("student_message", "学生互动", text, message.createdAt, message));
+          neutralEvidence.push(evidence("student_message", "pupil note", text, message.createdAt, message));
         }
       });
 
     followupItems(state.stuckSignals, action)
       .filter((signal) => signal.studentAlias === alias)
       .forEach((signal) => {
-        concernEvidence.push(evidence("stuck_signal", signal.stuckType || "新卡点", signal.note || signal.stuckType || "学生再次发送卡点。", signal.createdAt, signal));
+        concernEvidence.push(evidence("stuck_signal", signal.stuckType || "stuck signal", signal.note || signal.stuckType || "Pupil sent another stuck signal.", signal.createdAt, signal));
       });
 
     followupItems(state.questions, action)
@@ -81,19 +77,19 @@
       .forEach((question) => {
         const text = question.text || "";
         const target = looksPositive(text) ? positiveEvidence : concernEvidence;
-        target.push(evidence("student_question", "学生提问", text, question.createdAt, question));
+        target.push(evidence("student_question", "pupil question", text, question.createdAt, question));
       });
 
     followupItems(state.checkIns, action)
       .filter((checkIn) => checkIn.studentAlias === alias)
       .forEach((checkIn) => {
-        const quote = checkIn.summaryForTeacher || checkIn.teacherHelpDraft || checkIn.stateLabel || checkIn.state || "学生更新了学习状态。";
+        const quote = checkIn.summaryForteacher || checkIn.teacherHelpdraft || checkIn.stateLabel || checkIn.state || "Pupil updated learning status.";
         if (["understand", "partly_understand"].includes(checkIn.state) && Number(checkIn.wellbeingLevel || 0) <= 1) {
-          positiveEvidence.push(evidence("check_in", "学习 Check-in", quote, checkIn.createdAt, checkIn));
+          positiveEvidence.push(evidence("check_in", "learning check-in", quote, checkIn.createdAt, checkIn));
         } else if (["stuck", "frustrated", "want_teacher_help"].includes(checkIn.state) || Number(checkIn.wellbeingLevel || 0) >= 2) {
-          concernEvidence.push(evidence("check_in", "学习 Check-in", quote, checkIn.createdAt, checkIn));
+          concernEvidence.push(evidence("check_in", "learning check-in", quote, checkIn.createdAt, checkIn));
         } else {
-          neutralEvidence.push(evidence("check_in", "学习 Check-in", quote, checkIn.createdAt, checkIn));
+          neutralEvidence.push(evidence("check_in", "learning check-in", quote, checkIn.createdAt, checkIn));
         }
       });
 
@@ -104,17 +100,17 @@
       id: `outcome-${action.id}`,
       actionId: action.id,
       actionType: action.type,
-      actionLabel: ACTION_LABELS[action.type] || "老师动作",
-      actionTitle: action.title || ACTION_LABELS[action.type] || "老师动作",
+      actionLabel: ACTION_LABELS[action.type] || "teacher action",
+      actionTitle: action.title || ACTION_LABELS[action.type] || "teacher action",
       studentAlias: alias,
       status,
       statusLabel: STATUS_LABELS[status],
       summary: outcomeSummaryFor(status, alias, action, positiveEvidence, concernEvidence, neutralEvidence),
       recommendation: recommendationFor(status, action, concernEvidence),
       evidence: allEvidence,
-      positiveEvidenceCount: positiveEvidence.length,
-      concernEvidenceCount: concernEvidence.length,
-      neutralEvidenceCount: neutralEvidence.length,
+      positiveevidenceCount: positiveEvidence.length,
+      concernevidenceCount: concernEvidence.length,
+      neutralevidenceCount: neutralEvidence.length,
       studentReadAt: action.studentReadAt || null,
       studentResponseAt: action.studentResponseAt || null,
       studentResponseType: action.studentResponseType || null,
@@ -141,20 +137,18 @@
   }
 
   function buildSummary(metrics) {
-    if (!metrics.actionCount) return "还没有老师批准后的动作，等待先产生消息、材料或短跟进。";
-    return `已追踪 ${metrics.actionCount} 个老师动作：${metrics.improvedCount} 个出现改善信号，${metrics.needsFollowupCount} 个仍需跟进，${metrics.waitingSignalCount} 个等待学生后续信号。`;
+    if (!metrics.actionCount) return "No teacher-approved actions yet. Outcome evidence will appear after messages, materials or follow-ups are sent.";
+    return `Tracking ${metrics.actionCount} teacher actions: ${metrics.improvedCount} improved, ${metrics.needsFollowupCount} need follow-up, ${metrics.waitingSignalCount} are waiting for later pupil signals.`;
   }
 
-  function buildNextTeacherActions(evaluations) {
+  function buildNextteacherActions(evaluations) {
     return evaluations
       .filter((item) => item.status === "needs_followup" || item.status === "no_later_signal")
       .slice(0, 3)
       .map((item) => ({
         studentAlias: item.studentAlias,
         status: item.status,
-        title: item.status === "needs_followup"
-          ? `复盘 ${item.studentAlias} 的支持动作`
-          : `等待 ${item.studentAlias} 的后续学习信号`,
+        title: item.status === "needs_followup" ? `Follow up with ${item.studentAlias}` : `Wait for ${item.studentAlias}'s next signal`,
         detail: item.recommendation
       }));
   }
@@ -167,28 +161,24 @@
   }
 
   function outcomeSummaryFor(status, alias, action, positiveEvidence, concernEvidence, neutralEvidence) {
-    if (status === "improved") {
-      return `${alias} 在「${action.title || ACTION_LABELS[action.type]}」后出现了积极学习信号。`;
-    }
+    if (status === "improved") return `${alias} showed an improved learning signal after ${action.title || ACTION_LABELS[action.type]}.`;
     if (status === "needs_followup") {
-      const top = concernEvidence[0]?.label || "后续信号";
-      return `${alias} 在老师动作后仍出现「${top}」，需要再次跟进。`;
+      const top = concernEvidence[0]?.label || "learning signal";
+      return `${alias} still has a follow-up stuck point or help signal after the teacher action (${top}).`;
     }
-    if (status === "monitoring") {
-      return `${alias} 已有后续互动，但证据还不足以判断是否改善。`;
-    }
-    return `${alias} 还没有动作后的新学习信号，暂时不判断效果。`;
+    if (status === "monitoring") return `${alias} has later evidence, but it is not enough to judge the effect yet.`;
+    return `${alias} has no later pupil signal after this teacher action yet.`;
   }
 
   function recommendationFor(status, action, concernEvidence) {
-    if (status === "improved") return "保持观察，可在下一轮作业或提问中确认是否稳定。";
+    if (status === "improved") return "Keep monitoring. Confirm the understanding with one short assignment or question.";
     if (status === "needs_followup") {
-      if (concernEvidence.some((item) => /卡点|stuck/i.test(item.label))) return "建议换一种讲解材料，先让学生完成一个更小的可观察步骤。";
-      return "建议老师打开学生详情，复核原句后安排一次短跟进。";
+      if (concernEvidence.some((item) => /stuck/i.test(item.label))) return "Send a smaller explanation or targeted material, then ask the pupil to complete one tiny step.";
+      return "Open the pupil detail modal, review the quote, and send a short follow-up.";
     }
-    if (status === "monitoring") return "建议给一个低压力确认问题，收集更明确的理解证据。";
-    if (action.type === "assign_material") return "等待学生打开材料、提交作业或发送新的问题后再评估。";
-    return "等待学生回复、提交或分享新卡点后再评估。";
+    if (status === "monitoring") return "Ask one low-stress confirmation question before deciding the next intervention.";
+    if (action.type === "assign_material") return "Wait for the pupil to open the material, submit work, or send a question.";
+    return "Wait for a pupil reply, submission, or shared stuck signal.";
   }
 
   function followupItems(items, action) {
@@ -209,10 +199,10 @@
   }
 
   function linkedActionId(item) {
-    return item?.linkedTeacherActionId ||
-      item?.details?.linkedTeacherActionId ||
+    return item?.linkedteacherActionId ||
+      item?.details?.linkedteacherActionId ||
       item?.responseTo?.teacherActionId ||
-      item?.metadata?.linkedTeacherActionId ||
+      item?.metadata?.linkedteacherActionId ||
       null;
   }
 
@@ -229,23 +219,23 @@
       source,
       label,
       quote: cleanText(quote),
-      linkedTeacherActionId: linkedActionId(item),
+      linkedteacherActionId: linkedActionId(item),
       responseType: item?.responseType || item?.details?.responseType || null,
-      relation: action ? evidenceRelation(item, action) : (item?.linkedTeacherActionId || item?.details?.linkedTeacherActionId ? "linked" : "later_signal"),
+      relation: action ? evidenceRelation(item, action) : (item?.linkedteacherActionId || item?.details?.linkedteacherActionId ? "linked" : "later_signal"),
       createdAt: createdAt || null
     };
   }
 
   function looksPositive(text) {
-    return /懂了|明白|清楚|可以了|会了|完成|提交|谢谢|有帮助|understand|got it|makes sense|finished|submitted/i.test(String(text || ""));
+    return /understand|got it|makes sense|finished|submitted|helped|clear|i get it|completed/i.test(String(text || ""));
   }
 
   function looksConcern(text) {
-    return /不懂|不会|还是|卡|困惑|看不懂|没懂|挫败|焦虑|help|stuck|confus|don't understand/i.test(String(text || ""));
+    return /still|stuck|confus|don't understand|do not understand|help|lost|unclear|not sure|cannot/i.test(String(text || ""));
   }
 
   function statusLooksSubmitted(status) {
-    return /已提交|submitted|turn(ed)? in|complete/i.test(String(status || ""));
+    return /submitted|turned in|complete/i.test(String(status || ""));
   }
 
   function sortRecent(items) {
@@ -261,13 +251,9 @@
     return String(value || "").trim().replace(/\s+/g, " ").slice(0, 260);
   }
 
-  const api = {
-    buildOutcomeEvaluation
-  };
+  const api = { buildOutcomeEvaluation };
 
   global.TeachFlowOutcomeEvaluationEngine = api;
 
-  if (typeof module !== "undefined") {
-    module.exports = api;
-  }
+  if (typeof module !== "undefined") module.exports = api;
 })(typeof window !== "undefined" ? window : globalThis);

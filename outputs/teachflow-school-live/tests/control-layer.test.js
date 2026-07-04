@@ -10,65 +10,51 @@ S003,"It decomposes sound into simple waves like notes",4
 S004,"I don't see why this matters for physics",1`;
 
 const responses = diagnosisEngine.parseQuizResponses(csv);
-const analysis = diagnosisEngine.diagnoseUnderstanding({
-  topic: "Fourier Transform",
-  learning_objectives: ["Explain Fourier Transform conceptually."],
-  lesson_material: "Fourier Transform represents the same signal by frequency components.",
-  quiz_responses: responses
-});
+const analysis = diagnosisEngine.diagnoseUnderstanding({topic: "Fourier Transform",
+ learning_objectives: ["Explain Fourier Transform conceptually."],
+ lesson_material: "Fourier Transform represents the same signal by frequency components.",
+ quiz_responses: responses});
 
-const intervention = interventionEngine.generateIntervention({
-  analysis,
-  learning_objectives: ["Explain Fourier Transform conceptually."],
-  lesson_material: "Fourier Transform represents the same signal by frequency components."
-});
+const intervention = interventionEngine.generateIntervention({analysis,
+ learning_objectives: ["Explain Fourier Transform conceptually."],
+ lesson_material: "Fourier Transform represents the same signal by frequency components."});
 
 const approvals = controlLayer.createSectionApprovals(intervention);
 assert.strictEqual(approvals.level_1_material.status, "draft");
 
-const firstVersion = controlLayer.createVersion({
-  intervention,
-  versionNumber: 1,
-  createdBy: "ai",
-  changeSummary: "AI generated intervention draft",
-  status: "draft"
-});
-assert.strictEqual(firstVersion.version_number, 1);
+const firstversion = controlLayer.createversion({intervention,
+ versionNumber: 1,
+ createdBy: "ai",
+ changesummary: "AI generated intervention draft",
+ status: "draft"});
+assert.strictEqual(firstversion.version_number, 1);
 
 const levelOne = controlLayer.getSectionContent(intervention, "level_1_material");
-const editedLevelOne = {
-  ...levelOne,
-  explanation: `${levelOne.explanation} Teacher-added sentence.`
-};
+const editedLevelOne = {...levelOne,
+ explanation: `${levelOne.explanation} teacher-added sentence.`};
 const editedIntervention = controlLayer.replaceSectionContent(intervention, "level_1_material", editedLevelOne);
-assert.ok(editedIntervention.differentiated_materials.level_1_confused.explanation.includes("Teacher-added sentence."));
+assert.ok(editedIntervention.differentiated_materials.level_1_confused.explanation.includes("teacher-added sentence."));
 
-const audit = controlLayer.createAuditEntry({
-  actor: "teacher",
-  action: "edited_section",
-  targetType: "material",
-  targetId: "level_1_material",
-  details: "Teacher edited Level 1 Material"
-});
+const audit = controlLayer.createAuditEntry({actor: "teacher",
+ action: "edited_section",
+ targetType: "material",
+ targetId: "level_1_material",
+ details: "teacher edited Level 1 material"});
 assert.strictEqual(audit.actor, "teacher");
 assert.strictEqual(audit.target_type, "material");
 
-const exportPackage = controlLayer.createExportPackage({
-  intervention: editedIntervention,
-  analysis,
-  workspace: {
-    course: { title: "Physics" },
-    class: { name: "Demo Class" }
-  },
-  status: "approved",
-  sectionApprovals: approvals,
-  versionHistory: [firstVersion]
-});
+const exportPackage = controlLayer.createexportPackage({intervention: editedIntervention,
+ analysis,
+ workspace: {course: {title: "Physics"},
+ class: {name: "Demo class"}},
+ status: "approved",
+ sectionApprovals: approvals,
+ versionHistory: [firstversion]});
 assert.strictEqual(exportPackage.format, "markdown");
-assert.ok(exportPackage.content.includes("学生讲义"));
-assert.ok(exportPackage.content.includes("误解地图"));
+assert.ok(exportPackage.content.includes("pupil handout"));
+assert.ok(exportPackage.content.includes("Misconception map"));
 
-const restored = controlLayer.restoreVersion(firstVersion);
+const restored = controlLayer.restoreversion(firstversion);
 assert.deepStrictEqual(restored, intervention);
 
 console.log("control layer tests passed");

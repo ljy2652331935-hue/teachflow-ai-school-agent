@@ -1,0 +1,131 @@
+{
+  "demo": {
+    "course": "Intro to Signals",
+    "topic": "Fourier Transform",
+    "class": "Year 1 Engineering",
+    "uploaded_files": [
+      "lesson_note.md",
+      "learning_objectives.md",
+      "quiz_responses.csv",
+      "current_lesson_plan.md"
+    ]
+  },
+  "class_summary": {
+    "overall": "The class has partial understanding of Fourier Transform.",
+    "observations": [
+      "Some students know it is related to frequency.",
+      "Several students think it is just a formula.",
+      "Some students lack visual intuition.",
+      "Some students do not understand why the concept matters."
+    ],
+    "levels": {
+      "level_1": {
+        "label": "Level 1: Confused",
+        "students": ["S001", "S004", "S005", "S007"]
+      },
+      "level_2": {
+        "label": "Level 2: Partially Understood",
+        "students": ["S002", "S003"]
+      },
+      "level_3": {
+        "label": "Level 3: Ready to Apply",
+        "students": ["S006", "S008"]
+      }
+    }
+  },
+  "misconceptions": [
+    {
+      "title": "Fourier Transform is just a formula",
+      "evidence": [
+        "S001: Fourier Transform is just a formula for waves",
+        "S007: I remember the equation but I don't understand what it means"
+      ],
+      "severity": "High",
+      "teaching_need": "Students need to understand Fourier Transform as a change of representation, not just a formula."
+    },
+    {
+      "title": "Students know time to frequency but lack intuition",
+      "evidence": [
+        "S002: It turns time into frequency but I don't know why",
+        "S005: It changes a signal into another signal"
+      ],
+      "severity": "Medium",
+      "teaching_need": "Students need a visual explanation of time domain and frequency domain."
+    },
+    {
+      "title": "Students do not see real-world relevance",
+      "evidence": [
+        "S004: I don't see why this matters for physics"
+      ],
+      "severity": "Medium",
+      "teaching_need": "Students need applications in music, MRI, image compression, and quantum mechanics."
+    }
+  ],
+  "teacher_recommendation": {
+    "headline": "Do not restart with the formula.",
+    "recommended_flow": [
+      "Start with a curiosity hook: Why can a song, an image, and a quantum wave all be understood through frequencies?",
+      "Use a prism analogy: a prism splits white light into colors, and Fourier Transform splits a complex signal into frequencies.",
+      "Show a visual explanation: complex waveform -> Fourier Transform prism -> simple sine waves.",
+      "Then introduce the formal definition: time domain shows how the signal changes over time, while frequency domain shows what frequencies build the signal.",
+      "Finish with a micro-quiz to test understanding."
+    ]
+  },
+  "differentiated_materials": [
+    {
+      "level": "level_1",
+      "title": "Level 1: Confused Students",
+      "students": ["S001", "S004", "S005", "S007"],
+      "explanation": "Imagine listening to a song. It sounds like one complex sound, but inside it there are many notes and frequencies mixed together. Fourier Transform helps us separate the sound and see what frequencies are inside.",
+      "analogy": "Fourier Transform is like a prism. A prism splits white light into colors. Fourier Transform splits a complex signal into frequencies.",
+      "task": "Explain Fourier Transform using the prism analogy."
+    },
+    {
+      "level": "level_2",
+      "title": "Level 2: Partially Understood Students",
+      "students": ["S002", "S003"],
+      "explanation": "In the time domain, we see how a signal changes over time. In the frequency domain, we see what frequencies make up the signal. Fourier Transform is the bridge between these two views.",
+      "analogy": "It is like changing camera angles: one view shows motion over time, and the other view shows the hidden ingredients of the signal.",
+      "task": "Draw a simple diagram showing time domain on the left, Fourier Transform in the middle, and frequency domain on the right."
+    },
+    {
+      "level": "level_3",
+      "title": "Level 3: Ready to Apply Students",
+      "students": ["S006", "S008"],
+      "explanation": "Frequency representation is useful when the hidden structure of a signal matters more than its raw shape over time.",
+      "analogy": "It is like reading the ingredients list of a complex recipe instead of only looking at the finished dish.",
+      "task": "Choose one application of Fourier Transform: music, MRI, image compression, or quantum mechanics. Explain why frequency representation is useful in that field."
+    }
+  ],
+  "visual_aid": {
+    "image": "assets/fourier-prism.png",
+    "prompt": "Create a clean educational diagram showing a complex waveform on the left passing through a glowing prism labeled Fourier Transform, then splitting into several simple sine waves on the right.",
+    "labels": [
+      "Time Domain",
+      "Fourier Transform",
+      "Frequency Domain",
+      "Complex Signal",
+      "Simple Frequencies"
+    ]
+  },
+  "micro_quiz": [
+    "If a song is made of many notes mixed together, what does Fourier Transform help us see?",
+    "Why is Fourier Transform like a prism?",
+    "What is the difference between time domain and frequency domain?",
+    "Trap question: Is Fourier Transform only a formula? Explain why or why not."
+  ],
+  "current_lesson_plan": [
+    "Introduce the definition of Fourier Transform.",
+    "Show the mathematical formula.",
+    "Explain time domain and frequency domain.",
+    "Solve one example problem.",
+    "Assign homework questions."
+  ],
+  "student_memory_update": {
+    "S002": {
+      "current_understanding": "Knows Fourier Transform is related to time and frequency, but lacks intuition.",
+      "weak_points": ["Visual intuition", "Why frequency domain is useful"],
+      "recommended_next_action": "Give prism analogy and waveform decomposition diagram."
+    }
+  }
+}

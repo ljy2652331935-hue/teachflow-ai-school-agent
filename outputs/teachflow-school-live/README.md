@@ -1,4 +1,4 @@
-# TeachFlow School Live
+# TeachFlow school Live
 
 This folder is the clean school-trial version of TeachFlow. It is copied from the earlier demo app, but the default workspace starts empty: no demo class, no demo students, no demo questions, and no prefilled classroom records.
 

@@ -8,7 +8,7 @@ Last updated: 2026-07-03
 - School-trial package name: `teachflow-school-live`
 - Usual school-live URL: `http://127.0.0.1:5175/login.html`
 - Public Render demo URL: `https://qe-learning-demo.onrender.com/login.html`
-- Public judge classroom join URL: `https://qe-learning-demo.onrender.com/login.html?join=join-00c74581cd17b2cef3429fc9`
+- Public judge classroom join URL: `https://qe-learning-demo.onrender.com/login.html?join=join-demo`
 - Legacy demo app path: `outputs/teachflow-v0.1`
 - Legacy demo package/version: `teachflow-v0.3`
 - Legacy demo URL: `http://127.0.0.1:5174/`
@@ -191,3 +191,12 @@ node server.js --port=5175
 ## Current Focus
 
 Build toward a school-trial-ready AI teaching system while preserving teacher control, alias-only privacy, deterministic local behavior, and clear privacy/security boundaries.
+
+## Public Demo Status - 2026-07-04
+
+- Latest GitHub commit pushed: `d4976f5` (`Sync latest QE Learning public demo`).
+- Public login URL: `https://qe-learning-demo.onrender.com/login.html`.
+- Current stable judge join URL: `https://qe-learning-demo.onrender.com/login.html?join=join-demo`.
+- Current demo class: `Year 12 Physics Demo`, course `Physics`, topic `Waves, frequency and signals`.
+- Local QR image: `outputs/teachflow-school-live/qe-learning-judge-join-qr.png`.
+- Important: `join-demo` is now a stable public demo invite. If the Render persisted state already has a class but lacks an invite, the backend backfills this token automatically.

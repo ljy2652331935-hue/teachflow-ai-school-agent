@@ -31,16 +31,41 @@ const ACTION_ROLE_ACCESS = {read_workspace: ["teacher", "student", "school_admin
 
 const TEACHER_PERMISSIONS = ["read_class", "read_students", "approve_materials", "export_materials", "send_feedback"];
 const STUDENT_PERMISSIONS = ["read_self", "submit_assignment", "ask_agent", "send_stuck_signal", "send_check_in"];
+const STABLE_PUBLIC_INVITE_TOKEN = process.env.TEACHFLOW_PUBLIC_INVITE_TOKEN || "join-demo";
 
 function getState(context) {const state = getRawState();
  authorizeContext(context, "read_workspace");
  return clone(context? workspaceState.scopedStateForContext(state, context): state);}
 
 function getRawState() {const stored = readStateFile();
- if (stored) return clone(workspaceState.normalizeState(stored));
+ if (stored) {const state = workspaceState.normalizeState(stored);
+ if (ensureStablePublicInvite(state)) writeStateFile(state);
+ return clone(state);}
  const fresh = workspaceState.createDefaultState();
+ ensureStablePublicInvite(fresh);
  writeStateFile(fresh);
  return clone(fresh);}
+
+function ensureStablePublicInvite(state) {const token = cleanText(STABLE_PUBLIC_INVITE_TOKEN, 160);
+ if (!token) return false;
+ const classes = Array.isArray(state.classes)? state.classes: [];
+ if (!classes.length) return false;
+ const inviteLinks = Array.isArray(state.inviteLinks)? state.inviteLinks: [];
+ if (inviteLinks.some((item) => item.token === token && item.active!== false)) return false;
+ const classRecord = classes.find((item) => item.id === state.activeclassId) || classes[0];
+ if (!classRecord?.id) return false;
+ const teacherId = classRecord.teacherIds?.[0] || (state.accounts || []).find((account) => account.role === "teacher" && (account.classIds || []).includes(classRecord.id))?.id || null;
+ const now = new Date().toISOString();
+ const invite = {id: uniqueId(inviteLinks, "invite"),
+ token,
+ classId: classRecord.id,
+ teacherId,
+ active: true,
+ stable: true,
+ createdAt: classRecord.createdAt || now};
+ classRecord.inviteToken = classRecord.inviteToken || token;
+ state.inviteLinks = [...inviteLinks, invite];
+ return true;}
 
 function registerteacher(input) {const state = getRawState();
  const createdAt = new Date().toISOString();

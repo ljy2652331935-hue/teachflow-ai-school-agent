@@ -1,39 +1,106 @@
-# TeachFlow
+# QE Learning
 
-TeachFlow is an AI School Agent System for classroom pilots. It gives teachers a controlled AI assistant for understanding student learning signals, while giving students a private learning assistant for asking questions, submitting work, and sharing learning blockers when they choose to.
+![Status](https://img.shields.io/badge/status-MVP%20demo-blue)
+![Stack](https://img.shields.io/badge/stack-Node.js%20%2B%20Browser%20JS-111111)
+![AI Mode](https://img.shields.io/badge/AI-live%20or%20deterministic%20fallback-7c3aed)
+![Principle](https://img.shields.io/badge/principle-AI%20suggests%2C%20teachers%20decide-16a34a)
 
-The current MVP focuses on one complete learning loop:
+**The understanding layer for AI classrooms.**
+
+QE Learning is a teacher-controlled AI School Agent System that helps schools turn student confusion into timely, targeted, and trackable learning support.
+
+Most AI education tools focus on either student tutoring or teacher productivity. QE Learning focuses on the missing workflow between them:
 
 ```text
-Student learning signals -> Student Agent -> shared classroom data -> Teacher Agent
--> teacher-approved intervention/materials -> student response -> outcome feedback
+student signal -> AI diagnosis -> teacher-approved support
+-> student response -> outcome feedback
 ```
 
-## Why It Exists
+[Live demo](https://qe-learning-demo.onrender.com/login.html) | [Judge classroom link](https://qe-learning-demo.onrender.com/login.html?join=join-demo) | [Active app](outputs/teachflow-school-live) | [Project brain](docs/brain)
 
-Teachers often receive student questions, homework evidence, emotional learning blockers, and classroom progress signals in scattered places. TeachFlow turns those signals into a teacher-controlled workflow:
+## Why This Exists
 
-- students can ask for help and submit learning evidence
-- the Student Agent helps students clarify what they are stuck on
-- the Teacher Agent summarizes class-level patterns and individual support needs
-- teachers approve, edit, and publish materials or interventions
-- later student feedback flows back into teaching analysis
+If a school is like an organization, one of its hardest workflows is not assigning content. It is helping every student truly understand.
 
-The goal is not to replace teachers. The goal is to help teachers see what is happening sooner and act with better evidence.
+Teachers receive student questions, homework evidence, learning pressure, and classroom progress signals in scattered places. QE Learning turns those signals into one controlled teaching loop:
 
-## Core Modules
+- students ask questions, submit work, and share stuck points through a personal learning agent
+- the Student Agent helps students clarify what they do not understand
+- the Teacher Agent summarizes class patterns, misconceptions, and follow-up priorities
+- teachers review, edit, approve, and publish support materials
+- student feedback flows back into Teaching Analytics so teachers can see whether support worked
 
-| Module | What it does |
+The goal is not to replace teachers. The goal is to help teachers see misunderstanding earlier and act with better evidence.
+
+## What It Does
+
+| Area | What it does |
 | --- | --- |
-| Student Agent | Helps a student ask questions, reflect on blockers, draft a shareable stuck-signal, and receive learning support. |
-| Teacher Agent | Reads class-scoped student signals and produces priorities, misconception clusters, suggested interventions, message drafts, and outcome feedback. |
-| Teaching Analytics | Combines misconception diagnosis, differentiated intervention, student follow-up, and outcome return into one teacher workspace. |
-| Material Generator | Creates teacher-editable drafts for handouts, images, and practice exercises before publication. |
-| Teacher Control Layer | Keeps teachers in charge of approval, editing, target selection, publishing, and audit history. |
-| Shared Data Layer | Syncs questions, stuck signals, check-ins, teacher messages, materials, and feedback across teacher/student views. |
+| Student Agent | Helps a student ask learning questions, clarify stuck points, submit evidence, and draft teacher-shareable summaries. |
+| Teacher Agent | Reads class-scoped learning signals and produces priorities, misconception clusters, intervention ideas, message drafts, and outcome feedback. |
+| Teaching Analytics | Combines misconception diagnosis, differentiated intervention, student follow-up, and support effectiveness in one teacher workspace. |
+| Material Generator | Creates teacher-editable handouts, visuals, and practice exercises before publication. |
+| Teacher Control Layer | Keeps teachers in charge of editing, approval, target selection, publishing, and audit history. |
+| Shared Data Layer | Syncs questions, stuck signals, check-ins, messages, materials, and feedback across teacher and student views. |
 | School Admin View | Shows aggregate pilot metrics and class comparison without exposing individual student details. |
 
-## Current App
+## The Core Loop
+
+```text
+Student
+  asks a question / submits work / shares a stuck point
+      |
+      v
+Student Agent
+  clarifies the signal and protects student choice
+      |
+      v
+Shared Classroom Data Layer
+  stores class-scoped learning evidence
+      |
+      v
+Teacher Agent
+  diagnoses patterns, suggests actions, and prepares drafts
+      |
+      v
+Teacher Control Layer
+  teacher reviews, edits, approves, and publishes
+      |
+      v
+Student receives targeted support
+      |
+      v
+Outcome Feedback
+  teacher sees whether the support helped or needs follow-up
+```
+
+## How To Try The Demo
+
+Use the public deployment:
+
+```text
+https://qe-learning-demo.onrender.com/login.html
+```
+
+For a student join flow, use:
+
+```text
+https://qe-learning-demo.onrender.com/login.html?join=join-demo
+```
+
+Suggested demo path:
+
+1. Open the teacher side and create or enter a class.
+2. Open the classroom join link in another browser window as a student.
+3. Ask a learning question or share a stuck point as the student.
+4. Return to the teacher side and open Teaching Analytics.
+5. Generate a handout, visual, or practice task.
+6. Approve and publish it to the whole class or a single student.
+7. Let the student respond, then check outcome feedback on the teacher side.
+
+Render free deployments may sleep when inactive, so the first request can take a short time to wake up.
+
+## Run Locally
 
 The active school-trial app lives in:
 
@@ -41,14 +108,7 @@ The active school-trial app lives in:
 outputs/teachflow-school-live/
 ```
 
-It starts from a clean workspace:
-
-1. A teacher registers and creates a class.
-2. TeachFlow generates a classroom join link.
-3. A student joins through the link and receives an anonymous alias such as `S001`.
-4. Student questions, assignments, check-ins, stuck signals, messages, and feedback sync into the teacher analysis workspace.
-
-## Run Locally
+Start it:
 
 ```powershell
 cd outputs/teachflow-school-live
@@ -76,49 +136,71 @@ npm.cmd run test:system
 npm.cmd run test:browser-workflow
 ```
 
-The system test covers teacher registration, student join, Student Agent briefing, Teacher Agent analysis, wellbeing-chat privacy, stuck-signal sharing, outcome evaluation, and targeted material publishing.
+The system checks cover teacher registration, classroom invite links, student join, Student Agent briefing, Teacher Agent analysis, wellbeing-chat privacy, stuck-signal sharing, outcome evaluation, and targeted material publishing.
 
 ## AI Configuration
 
-TeachFlow can run in deterministic local fallback mode without an API key. For live AI behavior, create a local environment file based on:
+QE Learning can run in deterministic local fallback mode without an API key. For live AI behavior, create a local environment file based on:
 
 ```text
 outputs/teachflow-school-live/.env.example
 ```
 
-Do not commit real API keys or private environment files.
+Do not commit real API keys, private environment files, real student data, or production secrets.
 
 ## Privacy And Safety Principles
 
-- Use anonymous student aliases such as `S001`, not real student names or school IDs.
+- Use anonymous student aliases such as `S001`, not real names or school IDs.
 - AI drafts; teachers decide.
-- Student wellbeing support is for learning pressure reflection, not psychological diagnosis, therapy, medical care, or crisis response.
-- Student check-in details are only teacher-visible when the student explicitly shares a learning summary.
+- Students choose when to share a stuck-point summary with the teacher.
+- Wellbeing support is for learning pressure reflection, not diagnosis, therapy, medical care, or crisis response.
 - Teacher dashboards should show the minimum necessary learning evidence.
 - Generated materials require teacher approval before students see them.
 
 ## Project Status
 
-This is an MVP for controlled demos and early school-trial discussion. It is not production-ready for real student personal data yet.
+This is an MVP for demos and early school-trial discussion. It is not production-ready for real student personal data yet.
 
 Current limitations:
 
-- local/demo-grade sessions, not production identity management
+- demo-grade sessions, not production identity management
 - JSON-file persistence, not a production database
-- no production CSRF/rate-limit/security-header layer yet
-- live AI integration is available behind backend routes but still needs prompt/schema evaluations and operational safeguards
+- no production CSRF, rate-limit, or security-header layer yet
+- live AI routes exist, but prompt/schema evaluations and operational safeguards still need more work
+- privacy review is suitable for anonymous controlled demos, not full production deployment
 
-## Deployment
-
-The repository includes `render.yaml` and can be deployed as a simple Node service. A stable public deployment should use environment variables for API keys and should avoid uploading real student data.
-
-## Useful Paths
+## Repository Map
 
 ```text
-outputs/teachflow-school-live/server.js
-outputs/teachflow-school-live/teacher-agent-orchestrator.js
-outputs/teachflow-school-live/student-agent-orchestrator.js
-outputs/teachflow-school-live/ai-agent-service.js
-outputs/teachflow-school-live/workspace-store.js
-docs/brain/AI_SCHOOL_AGENT_ARCHITECTURE.md
+outputs/teachflow-school-live/
+  server.js                         # Node server and API routes
+  teacher-prototype.*               # Teacher app
+  student-prototype.*               # Student app
+  school-admin-prototype.*          # School admin app
+  teacher-agent-orchestrator.js     # Teacher Agent total API logic
+  student-agent-orchestrator.js     # Student Agent total API logic
+  ai-agent-service.js               # Live AI service wrapper
+  workspace-store.js                # Shared classroom data layer
+  tests/                            # System and workflow checks
+
+docs/brain/
+  AI_SCHOOL_AGENT_ARCHITECTURE.md   # Agent architecture notes
+  CURRENT_STATE.md                  # Current progress and risks
+  devlog/                           # Development history
 ```
+
+## What Makes It Different
+
+QE Learning is not just another chatbot and not just another worksheet generator.
+
+It is built around a closed instructional loop:
+
+- collect learning signals from students
+- diagnose where understanding breaks down
+- keep teachers in control of all support
+- publish targeted materials or messages
+- track whether the intervention actually helped
+
+In one line:
+
+> QE Learning helps teachers know who is stuck, why they are stuck, what to do next, and whether the support worked.
